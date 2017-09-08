@@ -1,10 +1,34 @@
 package client
 
 import "math/rand"
+import "string"
 import "time"
 
+func xWords() string {
+	abuff := []string{}
+	total := 0
+	for {
+		w := ranWord()
+		total += len(w)
+		abuff = append(abuff, w)
+		if total >= 40 {
+			break
+		}
+	}
+
+	buff := ""
+	for _, x := range abuff {
+		first := x[0:1]
+		last := x[1:len(x)]
+		first = strings.ToUpper(first)
+		fmt.Println(x, first, last)
+		buff += first + last
+	}
+	return buff
+}
+
 func ranWord() string {
-	list := []String{
+	list := []string{
 		"people",
 		"history",
 		"way",
