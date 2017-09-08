@@ -1,6 +1,7 @@
 package client
 
 import "github.com/dontpanic92/wxGo/wx"
+import "fmt"
 
 const THE_WORKER_ID = wx.ID_HIGHEST + 1
 
@@ -13,7 +14,7 @@ type TheFrame struct {
 
 func NewTheFrame() TheFrame {
 	f := TheFrame{}
-	f.frame = wx.NewFrame(wx.NullWindow, -1, "wxslak")
+	f.frame = wx.NewFrame(wx.NullWindow, -1, "simplecoin.life")
 
 	menubar := wx.NewMenuBar()
 	menuFile := wx.NewMenu()
@@ -44,6 +45,7 @@ func NewTheFrame() TheFrame {
 }
 
 func Setup() {
+	fmt.Println(ranWord())
 	wx1 := wx.NewApp()
 	f := NewTheFrame()
 	f.frame.Show()

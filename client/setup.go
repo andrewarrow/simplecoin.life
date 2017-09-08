@@ -23,13 +23,13 @@ func setupError(f *TheFrame, text string) {
 
 func setupAddToken(f *TheFrame) {
 	row := wx.NewBoxSizer(wx.HORIZONTAL)
-	msg := wx.NewStaticText(f.frame, wx.ID_ANY, "token", wx.DefaultPosition, wx.DefaultSize, 0)
+	msg := wx.NewStaticText(f.frame, wx.ID_ANY, "Name", wx.DefaultPosition, wx.DefaultSize, 0)
 	row.Add(msg, 0, wx.ALL|wx.EXPAND, 5)
-	ui_token = wx.NewTextCtrl(f.frame, wx.ID_ANY, "", wx.DefaultPosition, wx.NewSize(80, 25), 0)
+	ui_token = wx.NewTextCtrl(f.frame, wx.ID_ANY, "", wx.DefaultPosition, wx.NewSize(380, 25), 0)
 	row.Add(ui_token, 0, wx.ALL|wx.EXPAND, 5)
 
 	row3 := wx.NewBoxSizer(wx.HORIZONTAL)
-	ui_add = wx.NewButton(f.frame, wx.ID_ANY, "Add Token", wx.DefaultPosition, wx.DefaultSize, 0)
+	ui_add = wx.NewButton(f.frame, wx.ID_ANY, "Generate Name", wx.DefaultPosition, wx.DefaultSize, 0)
 	row3.Add(ui_add, 0, wx.ALL|wx.FIXED_MINSIZE, 5)
 
 	f.sizer.Add(row, 0, wx.ALL|wx.EXPAND, 5)
