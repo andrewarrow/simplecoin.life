@@ -45,13 +45,13 @@ func NewTheFrame() TheFrame {
 }
 
 func Setup() {
-	fmt.Println(xWord())
-	fmt.Println(xWord())
-	fmt.Println(xWord())
-	fmt.Println(xWord())
-	fmt.Println(xWord())
-	fmt.Println(xWord())
-	fmt.Println(xWord())
+	fmt.Println(xWords())
+	fmt.Println(xWords())
+	fmt.Println(xWords())
+	fmt.Println(xWords())
+	fmt.Println(xWords())
+	fmt.Println(xWords())
+	fmt.Println(xWords())
 	wx1 := wx.NewApp()
 	f := NewTheFrame()
 	f.frame.Show()

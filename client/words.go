@@ -1,7 +1,7 @@
 package client
 
 import "math/rand"
-import "string"
+import "strings"
 import "time"
 
 func xWords() string {
@@ -21,7 +21,6 @@ func xWords() string {
 		first := x[0:1]
 		last := x[1:len(x)]
 		first = strings.ToUpper(first)
-		fmt.Println(x, first, last)
 		buff += first + last
 	}
 	return buff
@@ -1030,7 +1029,7 @@ func ranWord() string {
 		"mail",
 		"mess",
 		"hardware"}
-	rand.Seed(time.Now().Unix())
+	rand.Seed(time.Now().UnixNano())
 	x := rand.Intn(len(list))
 	return list[x]
 }
