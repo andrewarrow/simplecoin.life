@@ -14,7 +14,7 @@ type TheFrame struct {
 
 func NewTheFrame() TheFrame {
 	f := TheFrame{}
-	f.frame = wx.NewFrame(wx.NullWindow, -1, "simplecoin.life")
+	f.frame = wx.NewFrame(wx.NullWindow, -1, "simplecoin.life", wx.DefaultPosition, wx.NewSize(650, 300), wx.DEFAULT_FRAME_STYLE|wx.TAB_TRAVERSAL)
 
 	menubar := wx.NewMenuBar()
 	menuFile := wx.NewMenu()

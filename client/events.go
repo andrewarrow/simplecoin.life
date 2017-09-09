@@ -7,7 +7,7 @@ func (f *TheFrame) evtThread(e wx.Event) {
 	te := wx.ToThreadEvent(e)
 	switch {
 	case te.GetInt() == 1:
-		setupFeeds(f)
+		generateName(f)
 	case te.GetInt() == 2:
 		setupFeeds(f)
 	}
@@ -20,7 +20,7 @@ func (f *TheFrame) evtQuit(wx.Event) {
 func (f *TheFrame) evtLogout(wx.Event) {
 }
 
-func (f *TheFrame) evtAddToken(wx.Event) {
+func (f *TheFrame) evtGenerateName(wx.Event) {
 	go func() {
 		f.SendEvent(1)
 	}()
