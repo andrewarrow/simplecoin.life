@@ -1,6 +1,6 @@
-# simplecoin.life (SLC)
+# simplecoin.life (SCL)
 
-these are example SLC money addresses:
+these are example SCL money addresses:
 
 * SuccessActivityPreferenceNoteCourseImprovement
 * CameraInternetCarChocolatePriceValueDress
@@ -13,7 +13,7 @@ these are example SLC money addresses:
 random each time from list of words
 
 bitcoin is peer-to-peer and encryption
-so is SLC
+so is SCL
 but our encryption is very simple
 you write the uuid backwards
 
@@ -23,7 +23,7 @@ you can just fake my signature with `tnemevorpmIesruoCetoNecnereferPytivitcAssec
 So what's the point?
 
 To teach people how blockchain works.
-SLC is just to make people understand how bitcoin works.
+SCL is just to make people understand how bitcoin works.
 
 i'm looking to educate the masses on how it works
 with a simple example lay people can follow.
