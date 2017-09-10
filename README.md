@@ -1,5 +1,7 @@
 # simplecoin.life (SCL)
 
+https://simplecoin.life
+
 these are example SCL money addresses:
 
 * SuccessActivityPreferenceNoteCourseImprovement
