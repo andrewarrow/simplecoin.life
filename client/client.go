@@ -1,8 +1,9 @@
 package client
 
 import "github.com/dontpanic92/wxGo/wx"
-import "fmt"
-import "time"
+
+//import "fmt"
+//import "time"
 
 const THE_WORKER_ID = wx.ID_HIGHEST + 1
 
@@ -39,7 +40,7 @@ func NewTheFrame() TheFrame {
 
 	f.frame.SetSizer(f.sizer)
 
-	setupAddToken(&f)
+	generateName(&f)
 
 	wx.Bind(f.frame, wx.EVT_THREAD, f.evtThread, THE_WORKER_ID)
 	return f
