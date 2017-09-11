@@ -3,6 +3,7 @@ package client
 import "github.com/dontpanic92/wxGo/wx"
 
 var ui_from wx.TextCtrl
+var ui_amount wx.TextCtrl
 var ui_to wx.TextCtrl
 var ui_add wx.Button
 var ui_bar wx.Gauge
@@ -37,6 +38,8 @@ func generateName(f *TheFrame) {
 
 	row3 := wx.NewBoxSizer(wx.HORIZONTAL)
 	ui_add = wx.NewButton(f.frame, wx.ID_ANY, "Send Money", wx.DefaultPosition, wx.DefaultSize, 0)
+	ui_amount = wx.NewTextCtrl(f.frame, wx.ID_ANY, "0.90", wx.DefaultPosition, wx.NewSize(80, 25), 0)
+	row3.Add(ui_amount, 0, wx.ALL|wx.FIXED_MINSIZE, 5)
 	row3.Add(ui_add, 0, wx.ALL|wx.FIXED_MINSIZE, 5)
 
 	f.sizer.Add(row, 0, wx.ALL|wx.EXPAND, 5)
