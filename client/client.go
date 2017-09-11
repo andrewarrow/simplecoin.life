@@ -2,6 +2,7 @@ package client
 
 import "github.com/dontpanic92/wxGo/wx"
 import "fmt"
+import "time"
 
 const THE_WORKER_ID = wx.ID_HIGHEST + 1
 
@@ -45,13 +46,15 @@ func NewTheFrame() TheFrame {
 }
 
 func Setup() {
-	fmt.Println(xWords())
-	fmt.Println(xWords())
-	fmt.Println(xWords())
-	fmt.Println(xWords())
-	fmt.Println(xWords())
-	fmt.Println(xWords())
-	fmt.Println(xWords())
+	/*
+		i := 0
+		for {
+			fmt.Printf("%s 10000 %d %s\n", xWords(), time.Now().Unix(), "genesis")
+			i++
+			if i == 1000 {
+				break
+			}
+		}*/
 	wx1 := wx.NewApp()
 	f := NewTheFrame()
 	f.frame.Show()
