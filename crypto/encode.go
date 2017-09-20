@@ -1,6 +1,8 @@
 package crypto
 
 import "fmt"
+import "math/rand"
+import "time"
 
 func greatest_common_divisor(a int, b int) int {
 	for {
@@ -39,29 +41,27 @@ func phi(n int) int {
 func GenKeys() string {
 	p := 97
 	q := 197
-	p = 7
-	q = 13
 	n := p * q
 
 	target := (p - 1) * (q - 1)
 	e := target - 2
+	list := []int{}
 	for {
 		if e == 2 {
 			break
 		}
 		if coprime(e, target) {
-			break
+			list = append(list, e)
 		}
 
 		e--
 	}
-	e = 5
+	rand.Seed(time.Now().UnixNano())
+	x := rand.Intn(len(list))
+	e = list[x]
 	p1 := phi(n)
 	fmt.Println(n, e)
 
-	//7*d mod 40 = 1
-	//		e*d % p1 == 1
-	// d such that e*d = 1 mod phi(n)
 	target = (p - 1) * (q - 1)
 	d := target - 2
 	for {
