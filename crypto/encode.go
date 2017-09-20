@@ -2,6 +2,25 @@ package crypto
 
 import "fmt"
 
+func factors(a int, b int) int {
+	for {
+		m := a % b
+		a = b
+		b = m
+
+		if b == 0 {
+			break
+		}
+
+	}
+
+	return a
+}
+
+func coprime(a int, b int) bool {
+	return factors(a, b) == 1
+}
+
 func GenPubKey() string {
 	p := 97
 	q := 197
@@ -14,7 +33,10 @@ func GenPubKey() string {
 		if e >= target {
 			break
 		}
-		fmt.Println(e)
+		if coprime(e, target) {
+		} else {
+			fmt.Println(e)
+		}
 
 		e++
 	}
