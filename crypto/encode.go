@@ -44,7 +44,6 @@ func GenKeys() string {
 	n := p * q
 
 	target := (p - 1) * (q - 1)
-	fmt.Println("t1", target)
 	e := target - 2
 	for {
 		if e == 2 {
@@ -58,12 +57,25 @@ func GenKeys() string {
 	}
 	e = 5
 	p1 := phi(n)
-	fmt.Println(n, e, p1)
+	fmt.Println(n, e)
 
 	//7*d mod 40 = 1
 	//		e*d % p1 == 1
 	// d such that e*d = 1 mod phi(n)
+	target = (p - 1) * (q - 1)
+	d := target - 2
+	for {
+		if d == 2 {
+			break
+		}
+		if (e*d)%p1 == 1 {
+			break
+		}
 
+		d--
+	}
+
+	fmt.Println(n, d)
 	buffer := ""
 
 	return buffer
