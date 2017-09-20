@@ -2,7 +2,7 @@ package crypto
 
 import "fmt"
 
-func factors(a int, b int) int {
+func greatest_common_divisor(a int, b int) int {
 	for {
 		m := a % b
 		a = b
@@ -18,33 +18,57 @@ func factors(a int, b int) int {
 }
 
 func coprime(a int, b int) bool {
-	return factors(a, b) == 1
+	return greatest_common_divisor(a, b) == 1
 }
 
-func GenPubKey() string {
+func phi(n int) int {
+	result := 1
+	i := 2
+	for {
+		if greatest_common_divisor(i, n) == 1 {
+			result++
+		}
+		i++
+		if i >= n {
+			break
+		}
+	}
+	return result
+}
+
+func GenKeys() string {
 	p := 97
 	q := 197
+	p = 7
+	q = 13
 	n := p * q
-	fmt.Println(n)
 
-	e := 2
 	target := (p - 1) * (q - 1)
+	fmt.Println("t1", target)
+	e := target - 2
 	for {
-		if e >= target {
+		if e == 2 {
 			break
 		}
 		if coprime(e, target) {
-		} else {
-			fmt.Println(e)
+			break
 		}
 
-		e++
+		e--
 	}
+	e = 5
+	p1 := phi(n)
+	fmt.Println(n, e, p1)
+
+	//7*d mod 40 = 1
+	//		e*d % p1 == 1
+	// d such that e*d = 1 mod phi(n)
 
 	buffer := ""
 
 	return buffer
 }
+
 func Encode(s string) string {
 
 	buffer := ""

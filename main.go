@@ -5,5 +5,5 @@ import "github.com/andrewarrow/simplecoin.life/crypto"
 
 func main() {
 	//client.Setup()
-	crypto.GenPubKey()
+	crypto.GenKeys()
 }
