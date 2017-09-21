@@ -48,21 +48,17 @@ func GenKeys() (int, int, int) {
 	n := p * q
 
 	target := (p - 1) * (q - 1)
-	e := target - 2
-	list := []int{}
+	e := rand.Intn(target-3) + 2
 	for {
 		if e == 2 {
 			break
 		}
 		if coprime(e, target) {
-			list = append(list, e)
+			break
 		}
 
 		e--
 	}
-	rand.Seed(time.Now().UnixNano())
-	x := rand.Intn(len(list))
-	e = list[x]
 	p1 := phi(n)
 	//fmt.Println(n, e)
 
