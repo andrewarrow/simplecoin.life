@@ -1,6 +1,6 @@
 package crypto
 
-import "fmt"
+//import "fmt"
 import "math/rand"
 import "time"
 
@@ -38,9 +38,13 @@ func phi(n int) int {
 	return result
 }
 
-func GenKeys() string {
-	p := 97
-	q := 197
+func GenKeys() (int, int, int) {
+	primes := generatePrimes()
+	rand.Seed(time.Now().UnixNano())
+	pindex1 := rand.Intn(len(primes))
+	pindex2 := rand.Intn(len(primes))
+	p := primes[pindex1]
+	q := primes[pindex2]
 	n := p * q
 
 	target := (p - 1) * (q - 1)
@@ -60,7 +64,7 @@ func GenKeys() string {
 	x := rand.Intn(len(list))
 	e = list[x]
 	p1 := phi(n)
-	fmt.Println(n, e)
+	//fmt.Println(n, e)
 
 	target = (p - 1) * (q - 1)
 	d := target - 2
@@ -75,10 +79,9 @@ func GenKeys() string {
 		d--
 	}
 
-	fmt.Println(n, d)
-	buffer := ""
+	//fmt.Println(n, d)
 
-	return buffer
+	return n, e, d
 }
 
 func Encode(s string) string {
