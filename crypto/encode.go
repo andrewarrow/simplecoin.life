@@ -1,7 +1,8 @@
 package crypto
 
 import "fmt"
-import "encoding/binary"
+
+//import "encoding/binary"
 import "math/rand"
 import "time"
 import "math/big"
@@ -100,27 +101,34 @@ func GenKeys() (int, int, int) {
 	return n, e, d
 }
 
-func Encode(s string, n, e int64) big.Int {
+func Encode(p, n, e uint64) big.Int {
+
+	if p >= n {
+		fmt.Println("ERR p >= n")
+		return *big.NewInt(0)
+	}
 
 	// C = Pe mod n
-	fmt.Println("encode", s, n, e)
-	byteArray := []byte(s)
-	byteArray = append(byteArray, 0)
-	byteArray = append(byteArray, 0)
-	byteArray = append(byteArray, 0)
+	//fmt.Println("encode", s, n, e)
+	//byteArray := []byte(s)
+	//byteArray = append(byteArray, 0)
+	//byteArray = append(byteArray, 0)
+	//byteArray = append(byteArray, 0)
 	//fmt.Println(byteArray)
-	p := binary.LittleEndian.Uint64(byteArray)
-	p = 10
-	fmt.Println("p", p)
+	//p := binary.LittleEndian.Uint64(byteArray)
+	//p = 55010
+	//fmt.Println("p", p)
 
 	var bp big.Int
+	var be big.Int
+	var bn big.Int
 	bp.SetUint64(p)
-	be := big.NewInt(e)
-	bn := big.NewInt(n)
+	be.SetUint64(e)
+	bn.SetUint64(n)
 
-	fmt.Println("bn", bn)
+	//fmt.Println("bn", bn)
 	var limit big.Int
-	c := limit.Exp(&bp, be, bn)
-	fmt.Println("ec", c)
+	c := limit.Exp(&bp, &be, &bn)
+	//fmt.Println("ec", c)
 	return *c
 }
