@@ -101,6 +101,15 @@ func GenKeys() (int, int, int) {
 	return n, e, d
 }
 
+func EncodeString(s string, n, e uint64) []big.Int {
+	list := []byte(s)
+	buffer := []big.Int{}
+	for _, p := range list {
+		buffer = append(buffer, Encode(uint64(p), n, e))
+	}
+	return buffer
+}
+
 func Encode(p, n, e uint64) big.Int {
 
 	if p >= n {
