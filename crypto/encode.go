@@ -58,12 +58,14 @@ func GenKeys() (uint64, uint64, uint64) {
 	}
 
 	target := (p - 1) * (q - 1)
-	bigRan := uint64(0)
+	bigRan := rand.Uint64()
+	index := uint64(0)
 	for {
-		bigRan = rand.Uint64()
 		if bigRan >= 2 && bigRan < target-3 {
 			break
 		}
+		bigRan = bigRan / 2
+		index++
 	}
 	e := bigRan
 	for {
