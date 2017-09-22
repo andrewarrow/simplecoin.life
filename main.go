@@ -11,6 +11,7 @@ func main() {
 	//n := uint64(828719)
 	//e := uint64(412211)
 	//d := uint64(252347)
+	fmt.Println(n, e)
 
 	list := crypto.EncodeString("AHELLO", n, e)
 	fmt.Println(list)

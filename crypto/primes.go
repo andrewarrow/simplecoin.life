@@ -5,7 +5,7 @@ import "math"
 func generatePrimes() []int {
 	primes := []int{}
 
-	const N = 1000
+	const N = 10000
 
 	var x, y, n int
 	nsqrt := math.Sqrt(N)

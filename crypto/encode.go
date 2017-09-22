@@ -27,8 +27,8 @@ func coprime(a uint64, b uint64) bool {
 	return greatest_common_divisor(a, b) == 1
 }
 
-func phi(n uint64) int {
-	result := 1
+func phi(n uint64) uint64 {
+	result := uint64(1)
 	i := uint64(2)
 	for {
 		if greatest_common_divisor(i, n) == 1 {
@@ -47,9 +47,9 @@ func GenKeys() (uint64, uint64, uint64) {
 	rand.Seed(time.Now().UnixNano())
 	pindex1 := rand.Intn(len(primes))
 	pindex2 := rand.Intn(len(primes))
-	p := primes[pindex1]
-	q := primes[pindex2]
-	n := uint64(p) * uint64(q)
+	p := uint64(primes[pindex1])
+	q := uint64(primes[pindex2])
+	n := p * q
 
 	debug := false
 
@@ -58,12 +58,19 @@ func GenKeys() (uint64, uint64, uint64) {
 	}
 
 	target := (p - 1) * (q - 1)
-	e := rand.Intn(target-3) + 2
+	bigRan := uint64(0)
+	for {
+		bigRan = rand.Uint64()
+		if bigRan >= 2 && bigRan < target-3 {
+			break
+		}
+	}
+	e := bigRan
 	for {
 		if e == 2 {
 			break
 		}
-		if coprime(uint64(e), uint64(target)) {
+		if coprime(e, target) {
 			break
 		}
 
@@ -96,7 +103,7 @@ func GenKeys() (uint64, uint64, uint64) {
 
 	//fmt.Println(n, d)
 
-	return n, uint64(e), uint64(d)
+	return n, e, d
 }
 
 func EncodeString(s string, n, e uint64) []big.Int {
