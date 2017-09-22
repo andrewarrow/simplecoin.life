@@ -3,8 +3,8 @@ package crypto
 import "fmt"
 import "encoding/binary"
 import "math/rand"
-import "math"
 import "time"
+import "math/big"
 
 func greatest_common_divisor(a int, b int) int {
 	for {
@@ -48,6 +48,8 @@ func GenKeys() (int, int, int) {
 	pindex2 := rand.Intn(len(primes))
 	p := primes[pindex1]
 	q := primes[pindex2]
+	p = 7
+	q = 13
 	n := p * q
 
 	debug := false
@@ -98,25 +100,23 @@ func GenKeys() (int, int, int) {
 	return n, e, d
 }
 
-func Encode(s string, n, e int) string {
+func Encode(s string, n, e int64) big.Int {
 
-	fmt.Println(s)
+	// C = Pe mod n
+	fmt.Println("encode", s, e)
 	byteArray := []byte(s)
 	byteArray = append(byteArray, 0)
 	byteArray = append(byteArray, 0)
 	byteArray = append(byteArray, 0)
-	fmt.Println(byteArray)
+	//fmt.Println(byteArray)
 	p := int64(binary.LittleEndian.Uint64(byteArray))
-	fmt.Println(p)
+	p = 10
 
-	pow := uint64(math.Pow(float64(p), float64(e)))
-	fmt.Println(pow)
-	c := pow % uint64(n)
-	fmt.Println(c)
+	bp := big.NewInt(p)
+	be := big.NewInt(e)
+	bn := big.NewInt(n)
 
-	b := make([]byte, 8)
-	binary.LittleEndian.PutUint64(b, c)
-	fmt.Println(b)
-
-	return string(b)
+	var limit big.Int
+	c := limit.Exp(bp, be, bn)
+	return *c
 }

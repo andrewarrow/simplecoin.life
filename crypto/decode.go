@@ -1,20 +1,19 @@
 package crypto
 
 import "fmt"
-import "encoding/binary"
-import "math"
 
-func Decode(s string, n, d int) string {
+//import "encoding/binary"
+import "math/big"
+
+func Decode(bc big.Int, n, d int64) string {
 
 	//Plaintext = Cd mod n
+	// C = Pe mod n
+	bd := big.NewInt(d)
 
-	//byteArray := []byte{153, 239, 5, 0}
-	pow := uint64(math.Pow(float64(389017), float64(d)))
-	plain := pow % uint64(n)
+	var limit big.Int
+	pow := limit.Exp(&bc, bd, nil)
+	fmt.Println(pow)
 
-	b := make([]byte, 8)
-	binary.LittleEndian.PutUint64(b, plain)
-	fmt.Println(b)
-
-	return string(b)
+	return ""
 }
