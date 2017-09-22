@@ -8,12 +8,14 @@ import "math/big"
 func Decode(bc big.Int, n, d int64) string {
 
 	//Plaintext = Cd mod n
-	// C = Pe mod n
 	bd := big.NewInt(d)
+	bn := big.NewInt(n)
+	fmt.Println("-bc", bc, bd, bn)
 
 	var limit big.Int
-	pow := limit.Exp(&bc, bd, nil)
-	fmt.Println(pow)
+	p := limit.Exp(&bc, bd, bn)
+
+	fmt.Println(p)
 
 	return ""
 }
