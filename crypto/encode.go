@@ -51,12 +51,6 @@ func GenKeys() (uint64, uint64, uint64) {
 	q := uint64(primes[pindex2])
 	n := p * q
 
-	debug := false
-
-	if debug {
-		fmt.Println("n", n)
-	}
-
 	target := (p - 1) * (q - 1)
 	bigRan := rand.Uint64()
 	index := uint64(0)
@@ -78,14 +72,7 @@ func GenKeys() (uint64, uint64, uint64) {
 
 		e--
 	}
-	if debug {
-		fmt.Println("e", e)
-	}
 	p1 := phi(n)
-	if debug {
-		fmt.Println("p1", p1)
-	}
-	//fmt.Println(n, e)
 
 	target = (p - 1) * (q - 1)
 	d := target - 2
@@ -99,11 +86,6 @@ func GenKeys() (uint64, uint64, uint64) {
 
 		d--
 	}
-	if debug {
-		fmt.Println("d", d)
-	}
-
-	//fmt.Println(n, d)
 
 	return n, e, d
 }
@@ -125,15 +107,6 @@ func Encode(p, n, e uint64) big.Int {
 	}
 
 	// C = Pe mod n
-	//fmt.Println("encode", s, n, e)
-	//byteArray := []byte(s)
-	//byteArray = append(byteArray, 0)
-	//byteArray = append(byteArray, 0)
-	//byteArray = append(byteArray, 0)
-	//fmt.Println(byteArray)
-	//p := binary.LittleEndian.Uint64(byteArray)
-	//p = 55010
-	//fmt.Println("p", p)
 
 	var bp big.Int
 	var be big.Int
@@ -142,9 +115,7 @@ func Encode(p, n, e uint64) big.Int {
 	be.SetUint64(e)
 	bn.SetUint64(n)
 
-	//fmt.Println("bn", bn)
 	var limit big.Int
 	c := limit.Exp(&bp, &be, &bn)
-	//fmt.Println("ec", c)
 	return *c
 }
