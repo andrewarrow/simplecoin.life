@@ -11,12 +11,15 @@ func main() {
 	//n := uint64(828719)
 	//e := uint64(412211)
 	//d := uint64(252347)
-	fmt.Println(n, e)
+	fmt.Printf("Public Account Number: %d-%d\n", n, e)
+	fmt.Printf("Private Account Number: %d-%d\n", n, d)
 
-	list := crypto.EncodeString("AHELLO", n, e)
-	fmt.Println(list)
-	for _, c := range list {
-		p := crypto.Decode(c, n, d)
-		fmt.Println(p)
-	}
+	/*
+		list := crypto.EncodeString("AHELLO", n, e)
+		fmt.Println(list)
+		for _, c := range list {
+			p := crypto.Decode(c, n, d)
+			fmt.Println(p)
+		}
+	*/
 }
