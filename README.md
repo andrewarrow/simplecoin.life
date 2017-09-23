@@ -2,31 +2,17 @@
 
 https://simplecoin.life
 
-these are example SCL money addresses:
+When you download and install the SCL client, you can generate your account number like:
 
-* SuccessActivityPreferenceNoteCourseImprovement
-* CameraInternetCarChocolatePriceValueDress
-* GuitarPerspectiveWomanConsiderationNight
-* LabFishBeerDimensionAreaAuthorPatientEconomics
-* InspectorPhoneSkillSituationDesireNorthCarry
-* PlanCameraPhraseLeadershipEntertainmentBody
-* ChallengeRelationMatchPsychologyUnitNorth
+Public Account Number: 47908853-30674977
+Private Account Number: 47908853-32124409
 
-random each time from list of words
+You give out your Public Account Number to people as a way for them to send you money.
+You keep your Private Account Number private.
 
-bitcoin is peer-to-peer and encryption
-so is SCL
-but our encryption is very simple
-you write the uuid backwards
+A good first step after generateing your numbers is to email both to yourself.
 
-if I have 10,000 coins in `SuccessActivityPreferenceNoteCourseImprovement`
-you can just fake my signature with `tnemevorpmIesruoCetoNecnereferPytivitcAsseccuS`
+There is no way to reset your Private Account Number if you can't remember it.
 
-So what's the point?
 
-To teach people how blockchain works.
-SCL is just to make people understand how bitcoin works.
-
-i'm looking to educate the masses on how it works
-with a simple example lay people can follow.
 

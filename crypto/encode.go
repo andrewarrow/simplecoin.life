@@ -28,6 +28,7 @@ func coprime(a uint64, b uint64) bool {
 }
 
 func phi(n uint64) uint64 {
+	fmt.Println("  phi of", n)
 	result := uint64(1)
 	i := uint64(2)
 	for {
@@ -43,6 +44,7 @@ func phi(n uint64) uint64 {
 }
 
 func GenKeys() (uint64, uint64, uint64) {
+	fmt.Println("1. generatePrimes")
 	primes := generatePrimes()
 	rand.Seed(time.Now().UnixNano())
 	pindex1 := rand.Intn(len(primes))
@@ -50,6 +52,7 @@ func GenKeys() (uint64, uint64, uint64) {
 	p := uint64(primes[pindex1])
 	q := uint64(primes[pindex2])
 	n := p * q
+	fmt.Println("2. calculate n")
 
 	target := (p - 1) * (q - 1)
 	bigRan := rand.Uint64()
@@ -72,7 +75,9 @@ func GenKeys() (uint64, uint64, uint64) {
 
 		e--
 	}
+	fmt.Println("3. calculate e")
 	p1 := phi(n)
+	fmt.Println("4. calculate phi")
 
 	target = (p - 1) * (q - 1)
 	d := target - 2
@@ -86,6 +91,7 @@ func GenKeys() (uint64, uint64, uint64) {
 
 		d--
 	}
+	fmt.Println("5. calculate d")
 
 	return n, e, d
 }
