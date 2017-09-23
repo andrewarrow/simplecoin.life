@@ -5,6 +5,7 @@ https://simplecoin.life
 When you download and install the SCL client, you can generate your account number like:
 
 Public Account Number: 47908853-30674977
+
 Private Account Number: 47908853-32124409
 
 You give out your Public Account Number to people as a way for them to send you money.
@@ -19,8 +20,23 @@ you could search for that email years later and find your private account number
 
 # transactions
 
+GENESIS > andrew > hector > sue > bob
+
+1. GENESIS
+2. (hash of 1 + pubkey of andrew)
+3. (hash of 2 + pubkey of hector)
+4. (hash of 3 + pubkey of sue)
+5. (hash of 4 + pubkey of bob)
+
+* transactions must be publicly announced, and we need a system for participants to agree on a single history of the order in which they were received. The payee needs proof that at the time of each transaction it was the first receive
+
 * chain of digital signatures. Each owner transfers the coin to the next by digitally signing a hash of the previous transaction and the public key of the next owner and adding these to the end of the coin.
 * contain multiple inputs and outputs
 * The timestamp proves that the data must have existed at the time, obviously, in order to get into the hash. Each timestamp includes the previous timestamp in its hash, forming a chain, with each additional timestamp reinforcing the ones before it.
 *  incrementing a nonce in the block until a value is found that gives the block's hash the required zero bits. Once the CPU effort has been expended to make it satisfy the proof-of-work, the block cannot be changed without redoing the work. As later blocks are chained after it, the work to change the block would include redoing all the blocks after it.
 
+
+https://en.bitcoin.it/wiki/Protocol_documentation#tx
+TxID is just a SHA256 hash of binary transation data
+https://medium.com/@lhartikk/a-blockchain-in-200-lines-of-code-963cc1cc0e54
+https://github.com/lhartikk/naivechain/blob/master/main.js
