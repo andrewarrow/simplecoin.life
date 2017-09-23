@@ -24,11 +24,9 @@ func main() {
 	e2 := uint64(412211)
 	//d2 := uint64(252347)
 
-	/*
-		n3 := uint64(828719)
-		e3 := uint64(412211)
-		d3 := uint64(252347)
-	*/
+	n3 := uint64(828719)
+	e3 := uint64(412211)
+	//d3 := uint64(252347)
 
 	fmt.Printf("Public Account Number: %d-%d\n", n1, e1)
 	fmt.Printf("Private Account Number: %d-%d\n", n1, d1)
@@ -46,6 +44,12 @@ func main() {
 	t2.Hash = t1.Hash + fmt.Sprintf(",%d-%d", n2, e2)
 	t2.OwnersPublicAccount = []uint64{n2, e2}
 	t2.PreviousOwnersSignature = crypto.EncodeString(t2.Hash, n1, e1) // 1's sig of hash
+	fmt.Println(t2.Encode())
+
+	t3 := crypto.NewTransaction(3)
+	t3.Hash = t2.Hash + fmt.Sprintf(",%d-%d", n3, e3)
+	t3.OwnersPublicAccount = []uint64{n3, e3}
+	t3.PreviousOwnersSignature = crypto.EncodeString(t3.Hash, n2, e2) // 1's sig of hash
 	fmt.Println(t2.Encode())
 
 	/*
