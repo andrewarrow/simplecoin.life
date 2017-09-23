@@ -37,7 +37,7 @@ func main() {
 	//t0 := crypto.NewTransaction(0)
 
 	t1 := crypto.NewTransaction(1)
-	t1.Hash = "1" + fmt.Sprintf(",%d-%d", n1, e1)
+	t1.Hash = fmt.Sprintf("%d-%d", n1, e1)
 	t1.OwnersPublicAccount = []uint64{n1, e1}
 	t1.PreviousOwnersSignature = []uint64{} // 0's sig of hash
 	fmt.Println(t1.Encode())
@@ -45,7 +45,7 @@ func main() {
 	t2 := crypto.NewTransaction(2)
 	t2.Hash = t1.Hash + fmt.Sprintf(",%d-%d", n2, e2)
 	t2.OwnersPublicAccount = []uint64{n2, e2}
-	t2.PreviousOwnersSignature = []uint64{1, 2, 3} // 1's sig of hash
+	t2.PreviousOwnersSignature = crypto.EncodeString(t2.Hash, n1, e1) // 1's sig of hash
 	fmt.Println(t2.Encode())
 
 	/*

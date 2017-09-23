@@ -2,7 +2,7 @@ package crypto
 
 import "math/big"
 
-func Decode(bc big.Int, n, d uint64) big.Int {
+func Decode(bc big.Int, n, d uint64) uint64 {
 
 	//Plaintext = Cd mod n
 	var bd big.Int
@@ -12,5 +12,5 @@ func Decode(bc big.Int, n, d uint64) big.Int {
 
 	var limit big.Int
 	p := limit.Exp(&bc, &bd, &bn)
-	return *p
+	return p.Uint64()
 }

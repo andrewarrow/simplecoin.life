@@ -96,20 +96,20 @@ func GenKeys() (uint64, uint64, uint64) {
 	return n, e, d
 }
 
-func EncodeString(s string, n, e uint64) []big.Int {
+func EncodeString(s string, n, e uint64) []uint64 {
 	list := []byte(s)
-	buffer := []big.Int{}
+	buffer := []uint64{}
 	for _, p := range list {
 		buffer = append(buffer, Encode(uint64(p), n, e))
 	}
 	return buffer
 }
 
-func Encode(p, n, e uint64) big.Int {
+func Encode(p, n, e uint64) uint64 {
 
 	if p >= n {
 		fmt.Println("ERR p >= n")
-		return *big.NewInt(0)
+		return 0
 	}
 
 	// C = Pe mod n
@@ -123,5 +123,5 @@ func Encode(p, n, e uint64) big.Int {
 
 	var limit big.Int
 	c := limit.Exp(&bp, &be, &bn)
-	return *c
+	return c.Uint64()
 }
