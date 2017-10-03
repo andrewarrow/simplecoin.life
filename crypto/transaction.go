@@ -4,8 +4,7 @@ import "encoding/json"
 
 type Transaction struct {
 	//Index    uint64 `json:"index"`
-	Owner    string `json:"owner"`
-	Previous string `json:"previous"`
+	Owner string `json:"owner"`
 }
 type TransactionList struct {
 	Items []Transaction `json:"items"`
