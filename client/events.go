@@ -9,7 +9,7 @@ func (f *TheFrame) evtThread(e wx.Event) {
 	case te.GetInt() == 1:
 		login(f)
 	case te.GetInt() == 2:
-		setupFeeds(f)
+		promptForLogin(f)
 	}
 }
 
@@ -18,6 +18,9 @@ func (f *TheFrame) evtQuit(wx.Event) {
 }
 
 func (f *TheFrame) evtLogout(wx.Event) {
+	go func() {
+		f.SendEvent(2)
+	}()
 }
 
 func (f *TheFrame) evtLogin(wx.Event) {

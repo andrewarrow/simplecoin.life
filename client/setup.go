@@ -10,6 +10,8 @@ var ui_add wx.Button
 var ui_bar wx.Gauge
 var ui_percent wx.StaticText
 
+var currentUser string
+
 func setupFeeds(f *TheFrame) {
 	f.sizer.Clear(true)
 }
@@ -25,6 +27,23 @@ func setupError(f *TheFrame, text string) {
 }
 
 func login(f *TheFrame) {
+	currentUser = ui_from.GetLineText(0)
+	f.sizer.Clear(true)
+	row := wx.NewBoxSizer(wx.HORIZONTAL)
+	msg := wx.NewStaticText(f.frame, wx.ID_ANY, "Public Name", wx.DefaultPosition, wx.DefaultSize, 0)
+	row.Add(msg, 0, wx.ALL|wx.EXPAND, 5)
+	name := wx.NewStaticText(f.frame, wx.ID_ANY, currentUser, wx.DefaultPosition, wx.DefaultSize, 0)
+	row.Add(name, 0, wx.ALL|wx.EXPAND, 5)
+
+	row3 := wx.NewBoxSizer(wx.HORIZONTAL)
+	ui_add = wx.NewButton(f.frame, wx.ID_ANY, "Logout", wx.DefaultPosition, wx.DefaultSize, 0)
+	row3.Add(ui_add, 0, wx.ALL|wx.FIXED_MINSIZE, 5)
+
+	f.sizer.Add(row, 0, wx.ALL|wx.EXPAND, 5)
+	f.sizer.Add(row3, 0, wx.ALL|wx.EXPAND, 5)
+
+	wx.Bind(f.frame, wx.EVT_BUTTON, f.evtLogout, ui_add.GetId())
+	f.frame.Layout()
 }
 
 func promptForLogin(f *TheFrame) {
