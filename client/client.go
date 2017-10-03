@@ -40,7 +40,7 @@ func NewTheFrame() TheFrame {
 
 	f.frame.SetSizer(f.sizer)
 
-	generateName(&f)
+	promptForLogin(&f)
 
 	wx.Bind(f.frame, wx.EVT_THREAD, f.evtThread, THE_WORKER_ID)
 	return f
