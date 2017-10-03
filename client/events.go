@@ -23,6 +23,12 @@ func (f *TheFrame) evtLogout(wx.Event) {
 	}()
 }
 
+func (f *TheFrame) evtTake(wx.Event) {
+	go func() {
+		f.SendEvent(3)
+	}()
+}
+
 func (f *TheFrame) evtLogin(wx.Event) {
 	go func() {
 		f.SendEvent(1)
