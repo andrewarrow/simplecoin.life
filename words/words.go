@@ -1,10 +1,10 @@
-package client
+package words
 
 import "math/rand"
 import "strings"
 import "time"
 
-func xWords() string {
+func BigWords() string {
 	abuff := []string{}
 	total := 0
 	for {

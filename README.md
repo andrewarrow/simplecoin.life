@@ -20,6 +20,34 @@ you could search for that email years later and find your private account number
 
 # transactions
 
+a private key is a single unsigned 256 bit integer (32 bytes).
+
+ A public key can be calculated from a private key, but not vice versa.
+
+A public key can be used to determine if a signature is genuine (in other words, produced with the proper key) without requiring the private key to be divulged.
+
+signature: A number that proves that a signing operation took place	
+
+A signature is mathematically generated from a hash of something to be signed, plus a private key. The signature itself is two numbers known as r and s.
+
+With the public key, a mathematical algorithm can be used on the signature to determine that it was originally produced from the hash and the private key
+
+
+https://en.wikipedia.org/wiki/Elliptic_Curve_Digital_Signature_Algorithm
+
+Bitcoin uses Elliptic Curve Digital Signature Algorithm (ECDSA) to sign transactions.
+Signatures use DER encoding to pack the r and s components into a single byte stream 
+
+Suppose Alice wants to send a signed message to Bob. Initially, they must agree on the curve parameters 
+( CURVE , G , n)
+
+we need G, a base point of prime order on the curve; 
+n is the multiplicative order of the point G
+
+Each input must have a cryptographic digital signature that unlocks the funds from the prior transaction. Only the person possessing the appropriate private key is able to create a satisfactory signature; this in effect ensures that funds can only be spent by their owners.
+
+The sender generates a private key and public key. They then sign the message with the signature and send their public key, the signature and the message to the network (as the network is peer to peer each full node in the network validates each transaction) – The node or receiver then checks using the verification algorithm that the message has been signed by the sender, which can only be done by the holder of the private key to the public key that is sent.
+
 GENESIS > andrew > hector > sue > bob
 
 1. GENESIS

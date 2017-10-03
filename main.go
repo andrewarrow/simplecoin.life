@@ -2,62 +2,45 @@ package main
 
 //import "github.com/andrewarrow/simplecoin.life/client"
 import "github.com/andrewarrow/simplecoin.life/crypto"
+import "github.com/andrewarrow/simplecoin.life/words"
 
 import "fmt"
 
 func main() {
-	//client.Setup()
-	//n, e, d := crypto.GenKeys()
-	//n := uint64(828719)
-	//e := uint64(412211)
-	//d := uint64(252347)
-	/*
-		n0 := uint64(91)
-		e0 := uint64(5)
-		d0 := uint64(29)
-	*/
-	n1 := uint64(44817313)
-	e1 := uint64(22946869)
-	d1 := uint64(34788097)
+	w2 := words.BigWords()
+	w3 := words.BigWords()
+	w4 := words.BigWords()
+	r2 := words.BigWords()
+	r3 := words.BigWords()
+	r4 := words.BigWords()
 
-	n2 := uint64(828719)
-	e2 := uint64(412211)
-	//d2 := uint64(252347)
+	coin := crypto.TransactionList{}
+	tx := crypto.NewTransaction(0)
+	tx.Owner = w2
+	tx.Previous = "genesis"
+	coin.Items = append(coin.Items, tx)
+	tx = crypto.NewTransaction(1)
+	tx.Owner = w3
+	tx.Previous = w2
+	coin.Items = append(coin.Items, tx)
+	tx = crypto.NewTransaction(2)
+	tx.Owner = w4
+	tx.Previous = w3
+	coin.Items = append(coin.Items, tx)
+	fmt.Println(coin.Encode())
 
-	n3 := uint64(828719)
-	e3 := uint64(412211)
-	//d3 := uint64(252347)
-
-	fmt.Printf("Public Account Number: %d-%d\n", n1, e1)
-	fmt.Printf("Private Account Number: %d-%d\n", n1, d1)
-
-	// CryptoJS.SHA256(index + previousHash + timestamp + data).toString();
-	//t0 := crypto.NewTransaction(0)
-
-	t1 := crypto.NewTransaction(1)
-	t1.Hash = fmt.Sprintf("%d-%d", n1, e1)
-	t1.OwnersPublicAccount = []uint64{n1, e1}
-	t1.PreviousOwnersSignature = []uint64{} // 0's sig of hash
-	fmt.Println(t1.Encode())
-
-	t2 := crypto.NewTransaction(2)
-	t2.Hash = t1.Hash + fmt.Sprintf(",%d-%d", n2, e2)
-	t2.OwnersPublicAccount = []uint64{n2, e2}
-	t2.PreviousOwnersSignature = crypto.EncodeString(t2.Hash, n1, e1) // 1's sig of hash
-	fmt.Println(t2.Encode())
-
-	t3 := crypto.NewTransaction(3)
-	t3.Hash = t2.Hash + fmt.Sprintf(",%d-%d", n3, e3)
-	t3.OwnersPublicAccount = []uint64{n3, e3}
-	t3.PreviousOwnersSignature = crypto.EncodeString(t3.Hash, n2, e2) // 1's sig of hash
-	fmt.Println(t2.Encode())
-
-	/*
-		list := crypto.EncodeString("AHELLO", n, e)
-		fmt.Println(list)
-		for _, c := range list {
-			p := crypto.Decode(c, n, d)
-			fmt.Println(p)
-		}
-	*/
+	coin = crypto.TransactionList{}
+	tx = crypto.NewTransaction(0)
+	tx.Owner = r2
+	tx.Previous = "genesis"
+	coin.Items = append(coin.Items, tx)
+	tx = crypto.NewTransaction(1)
+	tx.Owner = r3
+	tx.Previous = r2
+	coin.Items = append(coin.Items, tx)
+	tx = crypto.NewTransaction(2)
+	tx.Owner = r4
+	tx.Previous = r3
+	coin.Items = append(coin.Items, tx)
+	fmt.Println(coin.Encode())
 }

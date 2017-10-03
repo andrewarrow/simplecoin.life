@@ -7,6 +7,13 @@ import "math/rand"
 import "time"
 import "math/big"
 
+func TrivalHash(input string) string {
+	for _, c := range input {
+		fmt.Println(c)
+	}
+	return input
+}
+
 func greatest_common_divisor(a uint64, b uint64) uint64 {
 	for {
 
