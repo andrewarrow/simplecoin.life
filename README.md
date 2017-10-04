@@ -1,3 +1,15 @@
+# For Fedora 26:
+
+sudo yum install gtk3-devel
+sudo yum install webkitgtk3-devel
+sudo yum install mesa-libGLU-devel
+sudo yum install libSM-devel
+sudo yum install libnotify-devel
+sudo yum install libjpeg-devel
+sudo yum install libtiff-devel
+sudo yum install gstreamer1-devel
+sudo yum install gstream-devel
+
 # simplecoin.life (SCL)
 
 https://simplecoin.life
