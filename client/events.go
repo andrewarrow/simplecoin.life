@@ -10,6 +10,8 @@ func (f *TheFrame) evtThread(e wx.Event) {
 		login(f)
 	case te.GetInt() == 2:
 		promptForLogin(f)
+	case te.GetInt() == 3:
+		take(f)
 	}
 }
 

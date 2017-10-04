@@ -2,6 +2,8 @@ package client
 
 import "github.com/dontpanic92/wxGo/wx"
 import "github.com/andrewarrow/simplecoin.life/words"
+import "strconv"
+import "fmt"
 
 var ui_from wx.TextCtrl
 var ui_amount wx.TextCtrl
@@ -10,10 +12,17 @@ var ui_add wx.Button
 var ui_bar wx.Gauge
 var ui_percent wx.StaticText
 
+var balance wx.StaticText
 var currentUser string
 
 func setupFeeds(f *TheFrame) {
 	f.sizer.Clear(true)
+}
+
+func take(f *TheFrame) {
+	coins, _ := strconv.ParseFloat(balance.GetLabelText(), 10)
+	coins += 0.01
+	balance.SetLabelText(fmt.Sprintf("%f", coins))
 }
 
 func setupError(f *TheFrame, text string) {
@@ -40,7 +49,7 @@ func login(f *TheFrame) {
 	row3.Add(ui_add, 0, wx.ALL|wx.FIXED_MINSIZE, 5)
 	balanceLabel := wx.NewStaticText(f.frame, wx.ID_ANY, "Balance: ☀", wx.DefaultPosition, wx.DefaultSize, 0)
 	row3.Add(balanceLabel, 0, wx.ALL|wx.EXPAND, 5)
-	balance := wx.NewStaticText(f.frame, wx.ID_ANY, "0.00", wx.DefaultPosition, wx.DefaultSize, 0)
+	balance = wx.NewStaticText(f.frame, wx.ID_ANY, "0.00", wx.DefaultPosition, wx.DefaultSize, 0)
 	row3.Add(balance, 0, wx.ALL|wx.EXPAND, 5)
 	take := wx.NewButton(f.frame, wx.ID_ANY, "Take Coin", wx.DefaultPosition, wx.DefaultSize, 0)
 	row3.Add(take, 0, wx.ALL|wx.FIXED_MINSIZE, 5)
