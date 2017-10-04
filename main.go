@@ -9,6 +9,7 @@ import "fmt"
 
 func main() {
 	fmt.Println("start")
+	client.SqlInit()
 	client.Setup()
 	/*
 		w2 := words.BigWords()
