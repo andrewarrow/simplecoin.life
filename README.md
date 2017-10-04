@@ -10,6 +10,8 @@ sudo yum install libtiff-devel
 sudo yum install gstreamer1-devel
 sudo yum install gstream-devel
 
+sudo yum install gstreamer1-plugins-base-devel
+
 # simplecoin.life (SCL)
 
 https://simplecoin.life
