@@ -4,6 +4,9 @@ import "github.com/dontpanic92/wxGo/wx"
 import "github.com/andrewarrow/simplecoin.life/words"
 import "strconv"
 import "fmt"
+import "strings"
+
+//import "math"
 
 var ui_from wx.TextCtrl
 var ui_amount wx.TextCtrl
@@ -22,7 +25,9 @@ func setupFeeds(f *TheFrame) {
 func take(f *TheFrame) {
 	coins, _ := strconv.ParseFloat(balance.GetLabelText(), 10)
 	coins += 0.01
-	balance.SetLabelText(fmt.Sprintf("%f", coins))
+	c := fmt.Sprintf("%f", coins)
+	index := strings.Index(c, ".")
+	balance.SetLabelText(c[0 : index+3])
 }
 
 func setupError(f *TheFrame, text string) {
