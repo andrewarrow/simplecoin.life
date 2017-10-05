@@ -7,11 +7,13 @@ import "time"
 func BigWords() string {
 	abuff := []string{}
 	total := 0
+	words := 0
 	for {
 		w := ranWord()
+		words += 1
 		total += len(w)
 		abuff = append(abuff, w)
-		if total >= 40 {
+		if total >= 40 && words > 3 {
 			break
 		}
 	}
