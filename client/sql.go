@@ -23,12 +23,15 @@ func SqlInit() *sql.DB {
 	database, _ := sql.Open("sqlite3", UserHomeDir()+"/.scl.db")
 	statement, _ := database.Prepare("CREATE TABLE IF NOT EXISTS transactions (id TEXT PRIMARY KEY, owner TEXT, signature TEXT, previous_id TEXT)")
 	statement.Exec()
+	defer statement.Close()
 	return database
 }
 
 func AddRow(owner string, database *sql.DB) {
+	w := words.BigWords()
 	statement, _ := database.Prepare("INSERT INTO transactions (id, owner) VALUES (?, ?)")
-	statement.Exec(words.BigWords(), owner)
+	statement.Exec(w, owner)
+	defer statement.Close()
 }
 
 func SelectId(id string, database *sql.DB) string {
@@ -38,6 +41,7 @@ func SelectId(id string, database *sql.DB) string {
 		rows.Scan(&sid)
 		break
 	}
+	defer rows.Close()
 	return sid
 }
 func CountByOwner(owner string, database *sql.DB) uint64 {
@@ -47,6 +51,7 @@ func CountByOwner(owner string, database *sql.DB) uint64 {
 		rows.Scan(&sid)
 		break
 	}
+	defer rows.Close()
 	return sid
 }
 

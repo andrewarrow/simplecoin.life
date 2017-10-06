@@ -28,7 +28,6 @@ func send(f *TheFrame) {
 func take(f *TheFrame) {
 	db := SqlInit()
 	AddRow(currentUser, db)
-
 	coins, _ := strconv.ParseFloat(balance.GetLabelText(), 10)
 	coins += 0.01
 	c := fmt.Sprintf("%f", coins)
