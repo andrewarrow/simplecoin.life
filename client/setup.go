@@ -51,10 +51,14 @@ func login(f *TheFrame) {
 	row3.Add(balanceLabel, 0, wx.ALL|wx.EXPAND, 5)
 
 	db := SqlInit()
-	coins := CountByOwner(currentUser, db)
+	coins := (float64(CountByOwner(currentUser, db))) / 100.0
 	fmt.Println(coins)
+	c := fmt.Sprintf("%f", coins)
+	fmt.Println(c)
+	index := strings.Index(c, ".")
+	cc := c[0 : index+3]
 
-	balance = wx.NewStaticText(f.frame, wx.ID_ANY, "0.00", wx.DefaultPosition, wx.DefaultSize, 0)
+	balance = wx.NewStaticText(f.frame, wx.ID_ANY, cc, wx.DefaultPosition, wx.DefaultSize, 0)
 	row3.Add(balance, 0, wx.ALL|wx.EXPAND, 5)
 	take := wx.NewButton(f.frame, wx.ID_ANY, "Take Coin", wx.DefaultPosition, wx.DefaultSize, 0)
 	row3.Add(take, 0, wx.ALL|wx.FIXED_MINSIZE, 5)
