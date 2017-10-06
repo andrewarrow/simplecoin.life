@@ -7,26 +7,26 @@ import "github.com/andrewarrow/simplecoin.life/words"
 
 import "fmt"
 
-func main() {
+func main2() {
+	db := client.SqlInit()
 	i := 0
-	m := make(map[string]int)
 	for {
 
 		w := words.BigWords()
-		if m[w] == 1 {
+		s := client.SelectId(w, db)
+		if s != "" {
 			fmt.Println("match", w)
 			break
 		}
-		m[w] = 1
+		client.AddRow(w, db)
 		i++
 		if i%1000000 == 0 {
-			fmt.Println(i)
+			fmt.Println(i, w)
 		}
 	}
 }
-func main2() {
+func main() {
 	fmt.Println("start")
-	client.SqlInit()
 	client.Setup()
 	/*
 		w2 := words.BigWords()

@@ -13,7 +13,7 @@ func BigWords() string {
 		words += 1
 		total += len(w)
 		abuff = append(abuff, w)
-		if total >= 40 && words > 3 {
+		if total >= 40 && words > 4 {
 			break
 		}
 	}

@@ -12,6 +12,8 @@ func (f *TheFrame) evtThread(e wx.Event) {
 		promptForLogin(f)
 	case te.GetInt() == 3:
 		take(f)
+	case te.GetInt() == 4:
+		send(f)
 	}
 }
 
@@ -28,6 +30,11 @@ func (f *TheFrame) evtLogout(wx.Event) {
 func (f *TheFrame) evtTake(wx.Event) {
 	go func() {
 		f.SendEvent(3)
+	}()
+}
+func (f *TheFrame) evtSend(wx.Event) {
+	go func() {
+		f.SendEvent(4)
 	}()
 }
 

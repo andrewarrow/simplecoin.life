@@ -5,8 +5,8 @@ import _ "github.com/mattn/go-sqlite3"
 import "runtime"
 
 //import "encoding/base64"
-import "fmt"
 import "os"
+import "github.com/andrewarrow/simplecoin.life/words"
 
 func UserHomeDir() string {
 	if runtime.GOOS == "windows" {
@@ -19,18 +19,35 @@ func UserHomeDir() string {
 	return os.Getenv("HOME")
 }
 
-func SqlInit() {
+func SqlInit() *sql.DB {
 	database, _ := sql.Open("sqlite3", UserHomeDir()+"/.scl.db")
-	statement, _ := database.Prepare("CREATE TABLE IF NOT EXISTS transactions (id UNSIGNED BIG INT PRIMARY KEY, owner TEXT, signature TEXT, previous_id UNSIGNED BIG INT)")
+	statement, _ := database.Prepare("CREATE TABLE IF NOT EXISTS transactions (id TEXT PRIMARY KEY, owner TEXT, signature TEXT, previous_id TEXT)")
 	statement.Exec()
-
-	statement, _ = database.Prepare("INSERT INTO transactions (id, owner, signature) VALUES (?, ?, ?)")
-	statement.Exec(2, "test", "sig")
-	rows, _ := database.Query("SELECT id, owner FROM transactions")
-	var id int
-	var owner string
-	for rows.Next() {
-		rows.Scan(&id, &owner)
-		fmt.Println("hi", id, owner)
-	}
+	return database
 }
+
+func AddRow(owner string, database *sql.DB) {
+	statement, _ := database.Prepare("INSERT INTO transactions (id, owner) VALUES (?, ?)")
+	statement.Exec(words.BigWords(), owner)
+}
+
+func SelectId(id string, database *sql.DB) string {
+	rows, _ := database.Query("SELECT id FROM transactions where id=?", id)
+	var sid string
+	for rows.Next() {
+		rows.Scan(&sid)
+		break
+	}
+	return sid
+}
+func CountByOwner(owner string, database *sql.DB) uint64 {
+	rows, _ := database.Query("SELECT count(owner) FROM transactions where owner=?", owner)
+	var sid uint64
+	for rows.Next() {
+		rows.Scan(&sid)
+		break
+	}
+	return sid
+}
+
+//StructureMailJobPeaceGrowthThroatActivity
