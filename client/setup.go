@@ -25,17 +25,22 @@ func send(f *TheFrame) {
 	if id != "" {
 		fmt.Println(id)
 		TransferCoin(to, id, db)
+		bump(-0.01)
 	}
+}
+
+func bump(amount float64) {
+	coins, _ := strconv.ParseFloat(balance.GetLabelText(), 10)
+	coins += amount
+	c := fmt.Sprintf("%f", coins)
+	index := strings.Index(c, ".")
+	balance.SetLabelText(c[0 : index+3])
 }
 
 func take(f *TheFrame) {
 	db := SqlInit()
 	AddRow(currentUser, db)
-	coins, _ := strconv.ParseFloat(balance.GetLabelText(), 10)
-	coins += 0.01
-	c := fmt.Sprintf("%f", coins)
-	index := strings.Index(c, ".")
-	balance.SetLabelText(c[0 : index+3])
+	bump(0.01)
 }
 
 func login(f *TheFrame) {
