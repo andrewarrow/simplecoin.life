@@ -23,6 +23,7 @@ func send(f *TheFrame) {
 	db := SqlInit()
 	id := FindAvailableCoin(currentUser, db)
 	if id != "" {
+		fmt.Println(id)
 		TransferCoin(to, id, db)
 	}
 }

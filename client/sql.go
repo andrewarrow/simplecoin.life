@@ -33,10 +33,10 @@ func AddRow(owner string, database *sql.DB) {
 	statement.Exec(w, owner)
 	defer statement.Close()
 }
-func TransferCoin(id, new_owner string, database *sql.DB) {
+func TransferCoin(new_owner, previous string, database *sql.DB) {
 	w := words.BigWords()
 	statement, _ := database.Prepare("INSERT INTO transactions (id, owner, previous_id) VALUES (?, ?, ?)")
-	statement.Exec(w, new_owner, id)
+	statement.Exec(w, new_owner, previous)
 	defer statement.Close()
 }
 
