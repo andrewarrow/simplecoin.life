@@ -39,7 +39,7 @@ func bump(amount float64) {
 
 func take(f *TheFrame) {
 	db := SqlInit()
-	AddRow(currentUser, db)
+	TransferCoinFromGenesis(currentUser, db)
 	bump(0.01)
 }
 

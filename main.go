@@ -3,28 +3,10 @@ package main
 import "github.com/andrewarrow/simplecoin.life/client"
 
 //import "github.com/andrewarrow/simplecoin.life/crypto"
-import "github.com/andrewarrow/simplecoin.life/words"
+//import "github.com/andrewarrow/simplecoin.life/words"
 
 import "fmt"
 
-func main2() {
-	db := client.SqlInit()
-	i := 0
-	for {
-
-		w := words.BigWords()
-		s := client.SelectId(w, db)
-		if s != "" {
-			fmt.Println("match", w)
-			break
-		}
-		client.AddRow(w, db)
-		i++
-		if i%1000000 == 0 {
-			fmt.Println(i, w)
-		}
-	}
-}
 func main() {
 	fmt.Println("start")
 	client.Setup()

@@ -22,22 +22,22 @@ func UserHomeDir() string {
 
 func SqlInit() *sql.DB {
 	database, _ := sql.Open("sqlite3", UserHomeDir()+"/.scl.db")
-	statement, _ := database.Prepare("CREATE TABLE IF NOT EXISTS transactions (id TEXT PRIMARY KEY, owner TEXT, signature TEXT, previous_id TEXT, transfered_at BIGINT)")
+	statement, _ := database.Prepare("CREATE TABLE IF NOT EXISTS transactions (id TEXT PRIMARY KEY, owner TEXT, signature TEXT, previous_id TEXT, transfered_at BIGINT, created_at BIGINT)")
 	statement.Exec()
 	defer statement.Close()
 	return database
 }
 
-func AddRow(owner string, database *sql.DB) {
+func TransferCoinFromGenesis(owner string, database *sql.DB) {
 	w := words.BigWords()
-	statement, _ := database.Prepare("INSERT INTO transactions (id, owner) VALUES (?, ?)")
-	statement.Exec(w, owner)
+	statement, _ := database.Prepare("INSERT INTO transactions (id, owner, created_at) VALUES (?, ?, ?)")
+	statement.Exec(w, owner, time.Now().Unix())
 	defer statement.Close()
 }
 func TransferCoin(new_owner, previous string, database *sql.DB) {
 	w := words.BigWords()
-	statement, _ := database.Prepare("INSERT INTO transactions (id, owner, previous_id) VALUES (?, ?, ?)")
-	statement.Exec(w, new_owner, previous)
+	statement, _ := database.Prepare("INSERT INTO transactions (id, owner, previous_id, created_at) VALUES (?, ?, ?, ?)")
+	statement.Exec(w, new_owner, previous, time.Now().Unix())
 	statement.Close()
 	statement, _ = database.Prepare("UPDATE transactions set transfered_at=? WHERE id=?")
 	statement.Exec(time.Now().Unix(), previous)
