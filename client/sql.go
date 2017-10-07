@@ -5,6 +5,8 @@ import _ "github.com/mattn/go-sqlite3"
 import "runtime"
 import "time"
 
+//import "fmt"
+
 //import "encoding/base64"
 import "os"
 import "github.com/andrewarrow/simplecoin.life/words"
@@ -77,14 +79,14 @@ func FindAvailableCoin(owner string, database *sql.DB) string {
 }
 func TransactionsFrom(database *sql.DB) []crypto.Transaction {
 	list := make([]crypto.Transaction, 0)
-	rows, _ := database.Query("SELECT id,owner,previous_id,created_at,transfered_at FROM transactions order by created_at asc")
+	rows, _ := database.Query("SELECT id,owner,previous_id,created_at,transfered_at FROM transactions order by created_at asc limit 10")
 	for rows.Next() {
-		t := crypto.Transaction{}
-		rows.Scan(&t.Id)
-		rows.Scan(&t.Owner)
-		rows.Scan(&t.Previous)
-		rows.Scan(&t.Created)
-		rows.Scan(&t.Transfered)
+		var id, owner, previous string
+		var created, transfered uint64
+
+		rows.Scan(&id, &owner, &previous, &created, &transfered)
+
+		t := crypto.NewTransaction(id, owner, previous, created, transfered)
 		list = append(list, t)
 	}
 	defer rows.Close()

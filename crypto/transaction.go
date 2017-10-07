@@ -7,16 +7,20 @@ type Transaction struct {
 	Owner      string `json:"owner"`
 	Id         string `json:"id"`
 	Previous   string `json:"previous"`
-	Created    int64  `json:"created"`
-	Transfered int64  `json:"created"`
+	Created    uint64 `json:"created"`
+	Transfered uint64 `json:"created"`
 }
 type TransactionList struct {
 	Items []Transaction `json:"items"`
 }
 
-func NewTransaction(index int) Transaction {
+func NewTransaction(id, owner, previous string, created, transfered uint64) Transaction {
 	t := Transaction{}
-	//t.Index = uint64(index)
+	t.Id = id
+	t.Owner = owner
+	t.Previous = previous
+	t.Created = created
+	t.Transfered = transfered
 	return t
 }
 func (t Transaction) Encode() string {

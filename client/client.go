@@ -2,7 +2,8 @@ package client
 
 import "github.com/dontpanic92/wxGo/wx"
 
-//import "fmt"
+import "fmt"
+
 //import "time"
 
 const THE_WORKER_ID = wx.ID_HIGHEST + 1
@@ -62,7 +63,13 @@ func NewLogFrame() TheFrame {
 	grid.SetColLabelValue(2, "date")
 	grid.SetColLabelValue(3, "previous")
 	grid.SetColLabelValue(4, "transfered")
-	grid.SetCellValue(0, 0, "Wefwe")
+
+	db := SqlInit()
+	list := TransactionsFrom(db)
+	for i, t := range list {
+		fmt.Println(i, t)
+		//	grid.SetCellValue(i, 0, t.Id)
+	}
 	f.sizer.Add(grid, 0, wx.ALL|wx.EXPAND, 5)
 	f.frame.Layout()
 
