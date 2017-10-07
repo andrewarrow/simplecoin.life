@@ -33,6 +33,12 @@ func AddRow(owner string, database *sql.DB) {
 	statement.Exec(w, owner)
 	defer statement.Close()
 }
+func TransferCoin(id, new_owner string, database *sql.DB) {
+	w := words.BigWords()
+	statement, _ := database.Prepare("INSERT INTO transactions (id, owner, previous_id) VALUES (?, ?, ?)")
+	statement.Exec(w, new_owner, id)
+	defer statement.Close()
+}
 
 func SelectId(id string, database *sql.DB) string {
 	rows, _ := database.Query("SELECT id FROM transactions where id=?", id)
@@ -47,6 +53,16 @@ func SelectId(id string, database *sql.DB) string {
 func CountByOwner(owner string, database *sql.DB) uint64 {
 	rows, _ := database.Query("SELECT count(owner) FROM transactions where owner=?", owner)
 	var sid uint64
+	for rows.Next() {
+		rows.Scan(&sid)
+		break
+	}
+	defer rows.Close()
+	return sid
+}
+func FindAvailableCoin(owner string, database *sql.DB) string {
+	rows, _ := database.Query("SELECT id FROM transactions where owner=?", owner)
+	var sid string
 	for rows.Next() {
 		rows.Scan(&sid)
 		break

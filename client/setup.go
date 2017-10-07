@@ -18,11 +18,13 @@ var ui_percent wx.StaticText
 var balance wx.StaticText
 var currentUser string
 
-func setupFeeds(f *TheFrame) {
-	f.sizer.Clear(true)
-}
-
 func send(f *TheFrame) {
+	to := ui_to.GetLineText(0)
+	db := SqlInit()
+	id := FindAvailableCoin(currentUser, db)
+	if id != "" {
+		TransferCoin(to, id, db)
+	}
 }
 
 func take(f *TheFrame) {
@@ -66,8 +68,8 @@ func login(f *TheFrame) {
 	row4 := wx.NewBoxSizer(wx.HORIZONTAL)
 	ttg := wx.NewStaticText(f.frame, wx.ID_ANY, "Send To", wx.DefaultPosition, wx.DefaultSize, 0)
 	row4.Add(ttg, 0, wx.ALL|wx.EXPAND, 5)
-	to := wx.NewTextCtrl(f.frame, wx.ID_ANY, words.BigWords(), wx.DefaultPosition, wx.NewSize(380, 25), 0)
-	row4.Add(to, 0, wx.ALL|wx.EXPAND, 5)
+	ui_to = wx.NewTextCtrl(f.frame, wx.ID_ANY, words.BigWords(), wx.DefaultPosition, wx.NewSize(380, 25), 0)
+	row4.Add(ui_to, 0, wx.ALL|wx.EXPAND, 5)
 	send := wx.NewButton(f.frame, wx.ID_ANY, "Send", wx.DefaultPosition, wx.DefaultSize, 0)
 	row4.Add(send, 0, wx.ALL|wx.FIXED_MINSIZE, 5)
 
