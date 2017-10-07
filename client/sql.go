@@ -3,6 +3,7 @@ package client
 import "database/sql"
 import _ "github.com/mattn/go-sqlite3"
 import "runtime"
+import "time"
 
 //import "encoding/base64"
 import "os"
@@ -21,7 +22,7 @@ func UserHomeDir() string {
 
 func SqlInit() *sql.DB {
 	database, _ := sql.Open("sqlite3", UserHomeDir()+"/.scl.db")
-	statement, _ := database.Prepare("CREATE TABLE IF NOT EXISTS transactions (id TEXT PRIMARY KEY, owner TEXT, signature TEXT, previous_id TEXT)")
+	statement, _ := database.Prepare("CREATE TABLE IF NOT EXISTS transactions (id TEXT PRIMARY KEY, owner TEXT, signature TEXT, previous_id TEXT, transfered_at BIGINT)")
 	statement.Exec()
 	defer statement.Close()
 	return database
@@ -37,7 +38,10 @@ func TransferCoin(new_owner, previous string, database *sql.DB) {
 	w := words.BigWords()
 	statement, _ := database.Prepare("INSERT INTO transactions (id, owner, previous_id) VALUES (?, ?, ?)")
 	statement.Exec(w, new_owner, previous)
-	defer statement.Close()
+	statement.Close()
+	statement, _ = database.Prepare("UPDATE transactions set transfered_at=? WHERE id=?")
+	statement.Exec(time.Now().Unix(), previous)
+	statement.Close()
 }
 
 func SelectId(id string, database *sql.DB) string {
@@ -51,7 +55,7 @@ func SelectId(id string, database *sql.DB) string {
 	return sid
 }
 func CountByOwner(owner string, database *sql.DB) uint64 {
-	rows, _ := database.Query("SELECT count(owner) FROM transactions where owner=?", owner)
+	rows, _ := database.Query("SELECT count(owner) FROM transactions where owner=? and transfered_at is null", owner)
 	var sid uint64
 	for rows.Next() {
 		rows.Scan(&sid)
@@ -61,7 +65,7 @@ func CountByOwner(owner string, database *sql.DB) uint64 {
 	return sid
 }
 func FindAvailableCoin(owner string, database *sql.DB) string {
-	rows, _ := database.Query("SELECT id FROM transactions where owner=?", owner)
+	rows, _ := database.Query("SELECT id FROM transactions where owner=? and transfered_at is null", owner)
 	var sid string
 	for rows.Next() {
 		rows.Scan(&sid)
