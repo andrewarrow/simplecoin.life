@@ -48,7 +48,7 @@ func NewTheFrame() TheFrame {
 
 func NewLogFrame() TheFrame {
 	f := TheFrame{}
-	f.frame = wx.NewFrame(wx.NullWindow, -1, "simplecoin.life", wx.DefaultPosition, wx.NewSize(650, 300), wx.DEFAULT_FRAME_STYLE|wx.TAB_TRAVERSAL)
+	f.frame = wx.NewFrame(wx.NullWindow, -1, "simplecoin.life", wx.NewPoint(400, 400), wx.NewSize(650, 300), wx.DEFAULT_FRAME_STYLE|wx.TAB_TRAVERSAL)
 
 	f.sizer = wx.NewBoxSizer(wx.VERTICAL)
 
@@ -57,8 +57,11 @@ func NewLogFrame() TheFrame {
 	grid := wx.NewGrid(f.frame, wx.ID_ANY, wx.DefaultPosition, wx.DefaultSize, 0)
 	grid.CreateGrid(10, 5)
 	grid.EnableGridLines(true)
-	grid.SetColLabelValue(0, "test")
-	grid.SetRowLabelValue(0, "wef")
+	grid.SetColLabelValue(0, "id")
+	grid.SetColLabelValue(1, "owner")
+	grid.SetColLabelValue(2, "date")
+	grid.SetColLabelValue(3, "previous")
+	grid.SetColLabelValue(4, "transfered")
 	grid.SetCellValue(0, 0, "Wefwe")
 	f.sizer.Add(grid, 0, wx.ALL|wx.EXPAND, 5)
 	f.frame.Layout()
@@ -68,15 +71,6 @@ func NewLogFrame() TheFrame {
 }
 
 func Setup() {
-	/*
-		i := 0
-		for {
-			fmt.Printf("%s 10000 %d %s\n", xWords(), time.Now().Unix(), "genesis")
-			i++
-			if i == 1000 {
-				break
-			}
-		}*/
 	wx1 := wx.NewApp()
 	f := NewTheFrame()
 	f.frame.Show()
