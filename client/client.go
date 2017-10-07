@@ -46,6 +46,27 @@ func NewTheFrame() TheFrame {
 	return f
 }
 
+func NewLogFrame() TheFrame {
+	f := TheFrame{}
+	f.frame = wx.NewFrame(wx.NullWindow, -1, "simplecoin.life", wx.DefaultPosition, wx.NewSize(650, 300), wx.DEFAULT_FRAME_STYLE|wx.TAB_TRAVERSAL)
+
+	f.sizer = wx.NewBoxSizer(wx.VERTICAL)
+
+	f.frame.SetSizer(f.sizer)
+
+	grid := wx.NewGrid(f.frame, wx.ID_ANY, wx.DefaultPosition, wx.DefaultSize, 0)
+	grid.CreateGrid(10, 5)
+	grid.EnableGridLines(true)
+	grid.SetColLabelValue(0, "test")
+	grid.SetRowLabelValue(0, "wef")
+	grid.SetCellValue(0, 0, "Wefwe")
+	f.sizer.Add(grid, 0, wx.ALL|wx.EXPAND, 5)
+	f.frame.Layout()
+
+	wx.Bind(f.frame, wx.EVT_THREAD, f.evtThread, THE_WORKER_ID)
+	return f
+}
+
 func Setup() {
 	/*
 		i := 0
@@ -59,5 +80,7 @@ func Setup() {
 	wx1 := wx.NewApp()
 	f := NewTheFrame()
 	f.frame.Show()
+	f2 := NewLogFrame()
+	f2.frame.Show()
 	wx1.MainLoop()
 }
