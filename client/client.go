@@ -9,7 +9,7 @@ import "time"
 
 const THE_WORKER_ID = wx.ID_HIGHEST + 1
 
-var username, password, team string
+var dbPath string
 
 type TheFrame struct {
 	frame wx.Frame
@@ -86,7 +86,8 @@ func NewLogFrame() TheFrame {
 	return f
 }
 
-func Setup() {
+func Setup(db string) {
+	dbPath = db
 	wx1 := wx.NewApp()
 	f := NewTheFrame()
 	f.frame.Show()
