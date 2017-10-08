@@ -2,7 +2,7 @@ package client
 
 import "github.com/dontpanic92/wxGo/wx"
 
-import "fmt"
+//import "fmt"
 import "github.com/justincampbell/timeago"
 
 import "time"
@@ -57,7 +57,7 @@ func NewLogFrame() TheFrame {
 	f.frame.SetSizer(f.sizer)
 
 	grid := wx.NewGrid(f.frame, wx.ID_ANY, wx.DefaultPosition, wx.DefaultSize, 0)
-	grid.CreateGrid(20, 5)
+	grid.CreateGrid(100, 5)
 	grid.EnableEditing(false)
 	grid.EnableGridLines(true)
 	grid.SetColLabelValue(0, "created")
@@ -69,15 +69,14 @@ func NewLogFrame() TheFrame {
 	db := SqlInit()
 	list := TransactionsFrom(db)
 	for i, t := range list {
-		tm := time.Unix(t.Created, 0)
-		grid.SetCellValue(i, 0, timeago.FromDuration(time.Since(tm)))
+		grid.SetCellValue(i, 0, timeago.FromDuration(time.Since(time.Unix(t.Created, 0))))
 		grid.SetCellValue(i, 1, t.Id)
 		grid.SetCellValue(i, 2, t.Owner)
 		grid.SetCellValue(i, 3, t.Previous)
 		if t.Transfered == 0 {
-			grid.SetCellValue(i, 4, "")
+			grid.SetCellValue(i, 4, " ")
 		} else {
-			grid.SetCellValue(i, 4, fmt.Sprintf("%d", t.Transfered))
+			grid.SetCellValue(i, 4, timeago.FromDuration(time.Since(time.Unix(t.Transfered, 0))))
 		}
 	}
 	f.sizer.Add(grid, 0, wx.ALL|wx.EXPAND, 5)
