@@ -79,14 +79,14 @@ func FindAvailableCoin(owner string, database *sql.DB) string {
 }
 func TransactionsFrom(database *sql.DB) []crypto.Transaction {
 	list := make([]crypto.Transaction, 0)
-	rows, _ := database.Query("SELECT created_at, transfered_at, id, owner, previous_id FROM transactions order by created_at asc limit 10")
+	rows, _ := database.Query("SELECT created_at, COALESCE(transfered_at, 0), id, owner, COALESCE(previous_id, '') FROM transactions order by created_at asc limit 20")
 	for rows.Next() {
 		var id, owner, previous string
 		var created, transfered int64
 
 		rows.Scan(&created, &transfered, &id, &owner, &previous)
 
-		t := crypto.NewTransaction(id, owner, previous, int64(created), int64(transfered))
+		t := crypto.NewTransaction(id, owner, previous, created, transfered)
 		//list = append([]crypto.Transaction{t}, list...)
 		list = append(list, t)
 	}

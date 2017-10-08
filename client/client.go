@@ -49,26 +49,30 @@ func NewTheFrame() TheFrame {
 
 func NewLogFrame() TheFrame {
 	f := TheFrame{}
-	f.frame = wx.NewFrame(wx.NullWindow, -1, "simplecoin.life", wx.NewPoint(400, 400), wx.NewSize(650, 300), wx.DEFAULT_FRAME_STYLE|wx.TAB_TRAVERSAL)
+	f.frame = wx.NewFrame(wx.NullWindow, -1, "simplecoin.life", wx.NewPoint(200, 70), wx.NewSize(950, 700), wx.DEFAULT_FRAME_STYLE|wx.TAB_TRAVERSAL)
 
 	f.sizer = wx.NewBoxSizer(wx.VERTICAL)
 
 	f.frame.SetSizer(f.sizer)
 
 	grid := wx.NewGrid(f.frame, wx.ID_ANY, wx.DefaultPosition, wx.DefaultSize, 0)
-	grid.CreateGrid(10, 5)
+	grid.CreateGrid(20, 5)
+	grid.EnableEditing(false)
 	grid.EnableGridLines(true)
-	grid.SetColLabelValue(0, "id")
-	grid.SetColLabelValue(1, "owner")
-	grid.SetColLabelValue(2, "date")
+	grid.SetColLabelValue(0, "created")
+	grid.SetColLabelValue(1, "id")
+	grid.SetColLabelValue(2, "owner")
 	grid.SetColLabelValue(3, "previous")
 	grid.SetColLabelValue(4, "transfered")
 
 	db := SqlInit()
 	list := TransactionsFrom(db)
 	for i, t := range list {
-		fmt.Println(i, t)
-		//	grid.SetCellValue(i, 0, t.Id)
+		grid.SetCellValue(i, 0, fmt.Sprintf("%d", t.Created))
+		grid.SetCellValue(i, 1, t.Id)
+		grid.SetCellValue(i, 2, t.Owner)
+		grid.SetCellValue(i, 3, t.Previous)
+		grid.SetCellValue(i, 4, fmt.Sprintf("%d", t.Transfered))
 	}
 	f.sizer.Add(grid, 0, wx.ALL|wx.EXPAND, 5)
 	f.frame.Layout()
