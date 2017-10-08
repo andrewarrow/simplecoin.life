@@ -13,15 +13,15 @@ func handleRequest(conn net.Conn) {
 	conn.Close()
 }
 
-func Listen() {
-	l, err := net.Listen("tcp", "0.0.0.0:9376")
+func Listen(port string) {
+	l, err := net.Listen("tcp", "0.0.0.0:"+port)
 	if err != nil {
 		fmt.Println("Error listening:", err.Error())
 		return
 	}
 	defer l.Close()
 
-	fmt.Println("listening on 0.0.0.0:9376")
+	fmt.Println("listening on 0.0.0.0:" + port)
 	for {
 		conn, err := l.Accept()
 		if err != nil {
