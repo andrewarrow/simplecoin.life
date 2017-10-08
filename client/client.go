@@ -3,8 +3,9 @@ package client
 import "github.com/dontpanic92/wxGo/wx"
 
 import "fmt"
+import "github.com/justincampbell/timeago"
 
-//import "time"
+import "time"
 
 const THE_WORKER_ID = wx.ID_HIGHEST + 1
 
@@ -68,11 +69,16 @@ func NewLogFrame() TheFrame {
 	db := SqlInit()
 	list := TransactionsFrom(db)
 	for i, t := range list {
-		grid.SetCellValue(i, 0, fmt.Sprintf("%d", t.Created))
+		tm := time.Unix(t.Created, 0)
+		grid.SetCellValue(i, 0, timeago.FromDuration(time.Since(tm)))
 		grid.SetCellValue(i, 1, t.Id)
 		grid.SetCellValue(i, 2, t.Owner)
 		grid.SetCellValue(i, 3, t.Previous)
-		grid.SetCellValue(i, 4, fmt.Sprintf("%d", t.Transfered))
+		if t.Transfered == 0 {
+			grid.SetCellValue(i, 4, "")
+		} else {
+			grid.SetCellValue(i, 4, fmt.Sprintf("%d", t.Transfered))
+		}
 	}
 	f.sizer.Add(grid, 0, wx.ALL|wx.EXPAND, 5)
 	f.frame.Layout()
