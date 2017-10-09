@@ -1,5 +1,6 @@
 package peer
 
+import "github.com/andrewarrow/simplecoin.life/client"
 import "fmt"
 import "net"
 import "io"
@@ -11,8 +12,11 @@ func handleRequest(conn net.Conn) {
 	if err != nil {
 		fmt.Println("Error reading:", err.Error())
 	}
+	db := client.SqlInit()
+	tl := client.TransactionsFrom(db)
+
 	fmt.Println(string(buff))
-	conn.Write([]byte("Hola simplecoin.life/0.1\n"))
+	conn.Write([]byte(tl.Encode()))
 	conn.Close()
 }
 
@@ -23,6 +27,7 @@ func SayHello(peer string) {
 		return
 	}
 	defer conn.Close()
+
 	fmt.Fprintf(conn, "Hello simplecoin.life/0.1\n")
 	var buff bytes.Buffer
 	io.Copy(&buff, conn)

@@ -8,7 +8,7 @@ type Transaction struct {
 	Id         string `json:"id"`
 	Previous   string `json:"previous"`
 	Created    int64  `json:"created"`
-	Transfered int64  `json:"created"`
+	Transfered int64  `json:"transfered"`
 }
 type TransactionList struct {
 	Items []Transaction `json:"items"`

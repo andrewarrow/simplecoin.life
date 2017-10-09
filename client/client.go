@@ -86,8 +86,11 @@ func NewLogFrame() TheFrame {
 	return f
 }
 
-func Setup(db string) {
+func SetDbPath(db string) {
 	dbPath = db
+}
+
+func Setup() {
 	wx1 := wx.NewApp()
 	f := NewTheFrame()
 	f.frame.Show()
