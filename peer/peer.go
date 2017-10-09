@@ -12,7 +12,7 @@ func handleRequest(conn net.Conn) {
 		fmt.Println("Error reading:", err.Error())
 	}
 	fmt.Println(string(buff))
-	conn.Write([]byte("received."))
+	conn.Write([]byte("Hola simplecoin.life/0.1\n"))
 	conn.Close()
 }
 
@@ -23,7 +23,7 @@ func SayHello(peer string) {
 		return
 	}
 	defer conn.Close()
-	fmt.Fprintf(conn, "HELLO SIMPLECOIN/0.1\n")
+	fmt.Fprintf(conn, "Hello simplecoin.life/0.1\n")
 	var buff bytes.Buffer
 	io.Copy(&buff, conn)
 	fmt.Println(string(buff.Bytes()))
