@@ -13,6 +13,9 @@ func handleRequest(conn net.Conn) {
 	conn.Close()
 }
 
+func SayHello(peer string) {
+}
+
 func Listen(port string) {
 	l, err := net.Listen("tcp", "0.0.0.0:"+port)
 	if err != nil {

@@ -11,12 +11,24 @@ import "github.com/andrewarrow/simplecoin.life/peer"
 func main() {
 	args := os.Args[1:]
 	port := "9376"
+	peerUrl := ""
 	db := client.UserHomeDir() + "/.scl.db"
-	if len(args) == 2 && args[0] == "--db" {
-		db = client.UserHomeDir() + "/" + args[1]
-	} else if len(args) == 2 && args[0] == "--port" {
-		port = args[1]
+
+	key := ""
+	for i, a := range args {
+		if i%2 == 0 {
+			key = a
+		} else {
+			if key == "--port" {
+				port = a
+			} else if key == "--peer" {
+				peerUrl = a
+			} else if key == "--db" {
+				db = client.UserHomeDir() + "/" + a
+			}
+		}
 	}
 	go peer.Listen(port)
+	go peer.SayHello(peerUrl)
 	client.Setup(db)
 }
