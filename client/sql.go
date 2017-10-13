@@ -27,7 +27,7 @@ func SqlInit() *sql.DB {
 	database, _ := sql.Open("sqlite3", dbPath)
 	statement, _ := database.Prepare("CREATE TABLE IF NOT EXISTS transactions (id TEXT PRIMARY KEY, owner TEXT, signature TEXT, previous_id TEXT, transfered_at BIGINT, created_at BIGINT)")
 	statement.Exec()
-	defer statement.Close()
+	statement.Close()
 	return database
 }
 
@@ -44,6 +44,11 @@ func TransferCoin(new_owner, previous string, database *sql.DB) {
 	statement.Close()
 	statement, _ = database.Prepare("UPDATE transactions set transfered_at=? WHERE id=?")
 	statement.Exec(time.Now().Unix(), previous)
+	statement.Close()
+}
+func InsertTransactionFromPeer(id, owner, previous string, transfered, created int64, database *sql.DB) {
+	statement, _ := database.Prepare("INSERT INTO transactions (id, owner, previous_id, transfered_at, created_at) VALUES (?, ?, ?, ?, ?)")
+	statement.Exec(id, owner, previous, transfered, created)
 	statement.Close()
 }
 

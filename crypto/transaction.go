@@ -37,3 +37,8 @@ func (t TransactionList) Encode() string {
 	}
 	return string(b)
 }
+func DataToTransactionList(data []byte) TransactionList {
+	var result TransactionList
+	json.Unmarshal(data, &result)
+	return result
+}

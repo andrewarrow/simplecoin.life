@@ -1,6 +1,7 @@
 package peer
 
 import "github.com/andrewarrow/simplecoin.life/client"
+import "github.com/andrewarrow/simplecoin.life/crypto"
 import "fmt"
 import "net"
 import "io"
@@ -31,7 +32,14 @@ func SayHello(peer string) {
 	fmt.Fprintf(conn, "Hello simplecoin.life/0.1\n")
 	var buff bytes.Buffer
 	io.Copy(&buff, conn)
-	fmt.Println(string(buff.Bytes()))
+
+	tl := crypto.DataToTransactionList(buff.Bytes())
+	db := client.SqlInit()
+	for _, t := range tl.Items {
+		//insert each t
+		//unique index
+		client.InsertTransactionFromPeer(t.Id, t.Owner, t.Previous, t.Transfered, t.Created, db)
+	}
 }
 
 func Listen(port string) {
