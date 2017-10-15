@@ -5,7 +5,7 @@ import _ "github.com/mattn/go-sqlite3"
 import "runtime"
 import "time"
 
-//import "fmt"
+import "fmt"
 
 //import "encoding/base64"
 import "os"
@@ -24,6 +24,7 @@ func UserHomeDir() string {
 }
 
 func SqlInit() *sql.DB {
+	fmt.Println("dbPath", dbPath)
 	database, _ := sql.Open("sqlite3", dbPath)
 	statement, _ := database.Prepare("CREATE TABLE IF NOT EXISTS transactions (id TEXT PRIMARY KEY, owner TEXT, signature TEXT, previous_id TEXT, transfered_at BIGINT, created_at BIGINT)")
 	statement.Exec()

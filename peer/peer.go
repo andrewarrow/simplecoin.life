@@ -33,11 +33,13 @@ func SayHello(peer string) {
 	var buff bytes.Buffer
 	io.Copy(&buff, conn)
 
+	fmt.Println("got: ", len(buff.Bytes()))
 	tl := crypto.DataToTransactionList(buff.Bytes())
 	db := client.SqlInit()
 	for _, t := range tl.Items {
 		//insert each t
 		//unique index
+		fmt.Println("adding tx", t.Id)
 		client.InsertTransactionFromPeer(t.Id, t.Owner, t.Previous, t.Transfered, t.Created, db)
 	}
 }
