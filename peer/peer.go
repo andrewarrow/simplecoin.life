@@ -11,8 +11,8 @@ var myPort = ""
 var myPeers = []string{}
 
 func handleRequest(conn net.Conn) {
-	localAddr := conn.LocalAddr().(*net.TCPAddr)
-	s := localAddr.IP.String()
+	remoteAddr := conn.RemoteAddr().(*net.TCPAddr)
+	s := remoteAddr.IP.String()
 	fmt.Println("Connection from: " + s)
 
 	buff := make([]byte, 1024)
