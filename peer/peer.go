@@ -11,7 +11,7 @@ var myPort = ""
 var myPeers = []string{}
 
 func handleRequest(conn net.Conn) {
-	localAddr := conn.LocalAddr().(*net.UDPAddr)
+	localAddr := conn.LocalAddr().(*net.TCPAddr)
 	s := localAddr.IP.String()
 	fmt.Println("Connection from: " + s)
 

@@ -11,7 +11,7 @@ import "time"
 
 func main() {
 	args := os.Args[1:]
-	port := "9376"
+	port := "8666"
 	peerUrl := ""
 	gui := false
 	db := sql.UserHomeDir() + "/.scl.db"
