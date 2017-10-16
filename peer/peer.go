@@ -11,6 +11,10 @@ var myPort = ""
 var myPeers = []string{}
 
 func handleRequest(conn net.Conn) {
+	localAddr := conn.LocalAddr().(*net.UDPAddr)
+	s := localAddr.IP.String()
+	fmt.Println("Connection from: " + s)
+
 	buff := make([]byte, 1024)
 	_, err := conn.Read(buff)
 	if err != nil {
@@ -71,7 +75,7 @@ func Listen(port string) {
 	defer l.Close()
 
 	obi := GetOutboundIP()
-	fmt.Println("listening at " + obi)
+	fmt.Println("listening at " + obi + ":" + port)
 	for {
 		conn, err := l.Accept()
 		if err != nil {
