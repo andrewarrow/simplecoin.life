@@ -1,11 +1,14 @@
 package peer
 
-import "github.com/andrewarrow/simplecoin.life/client"
+import "github.com/andrewarrow/simplecoin.life/sql"
 import "github.com/andrewarrow/simplecoin.life/crypto"
 import "fmt"
 import "net"
 import "io"
 import "bytes"
+
+var myPort = ""
+var myPeers = []string{}
 
 func handleRequest(conn net.Conn) {
 	buff := make([]byte, 1024)
@@ -13,8 +16,8 @@ func handleRequest(conn net.Conn) {
 	if err != nil {
 		fmt.Println("Error reading:", err.Error())
 	}
-	db := client.SqlInit()
-	tl := client.TransactionsFrom(db)
+	db := sql.SqlInit()
+	tl := sql.TransactionsFrom(db)
 
 	fmt.Println(string(buff))
 	conn.Write([]byte(tl.Encode()))
@@ -35,16 +38,31 @@ func SayHello(peer string) {
 
 	fmt.Println("got: ", len(buff.Bytes()))
 	tl := crypto.DataToTransactionList(buff.Bytes())
-	db := client.SqlInit()
+	db := sql.SqlInit()
 	for _, t := range tl.Items {
 		//insert each t
 		//unique index
 		fmt.Println("adding tx", t.Id)
-		client.InsertTransactionFromPeer(t.Id, t.Owner, t.Previous, t.Transfered, t.Created, db)
+		sql.InsertTransactionFromPeer(t.Id, t.Owner, t.Previous, t.Transfered, t.Created, db)
 	}
 }
 
+// https://stackoverflow.com/questions/23558425/how-do-i-get-the-local-ip-address-in-go
+func GetOutboundIP() string {
+	conn, err := net.Dial("udp", "8.8.8.8:80")
+	if err != nil {
+		fmt.Println(err)
+		return err.Error()
+	}
+	defer conn.Close()
+
+	localAddr := conn.LocalAddr().(*net.UDPAddr)
+
+	return localAddr.IP.String()
+}
+
 func Listen(port string) {
+	myPort = port
 	l, err := net.Listen("tcp", "0.0.0.0:"+port)
 	if err != nil {
 		fmt.Println("Error listening:", err.Error())
@@ -52,7 +70,8 @@ func Listen(port string) {
 	}
 	defer l.Close()
 
-	fmt.Println("listening on 0.0.0.0:" + port)
+	obi := GetOutboundIP()
+	fmt.Println("listening at " + obi)
 	for {
 		conn, err := l.Accept()
 		if err != nil {

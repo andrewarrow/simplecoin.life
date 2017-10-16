@@ -1,6 +1,6 @@
 package main
 
-import "github.com/andrewarrow/simplecoin.life/client"
+import "github.com/andrewarrow/simplecoin.life/sql"
 import "os"
 
 //import "github.com/andrewarrow/simplecoin.life/crypto"
@@ -13,8 +13,8 @@ func main() {
 	args := os.Args[1:]
 	port := "9376"
 	peerUrl := ""
-	gui := true
-	db := client.UserHomeDir() + "/.scl.db"
+	gui := false
+	db := sql.UserHomeDir() + "/.scl.db"
 
 	key := ""
 	for i, a := range args {
@@ -26,17 +26,17 @@ func main() {
 			} else if key == "--peer" {
 				peerUrl = a
 			} else if key == "--db" {
-				db = client.UserHomeDir() + "/" + a
+				db = sql.UserHomeDir() + "/" + a
 			} else if key == "--gui" {
 				gui = false
 			}
 		}
 	}
+	sql.SetDbPath(db)
 	go peer.Listen(port)
 	go peer.SayHello(peerUrl)
-	client.SetDbPath(db)
 	if gui {
-		client.Setup()
+		//client.Setup()
 	} else {
 		for {
 			time.Sleep(1)

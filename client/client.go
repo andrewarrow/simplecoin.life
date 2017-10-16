@@ -3,13 +3,12 @@ package client
 import "github.com/dontpanic92/wxGo/wx"
 
 //import "fmt"
+import "github.com/andrewarrow/simplecoin.life/sql"
 import "github.com/justincampbell/timeago"
 
 import "time"
 
 const THE_WORKER_ID = wx.ID_HIGHEST + 1
-
-var dbPath string
 
 type TheFrame struct {
 	frame wx.Frame
@@ -66,8 +65,8 @@ func NewLogFrame() TheFrame {
 	grid.SetColLabelValue(3, "previous")
 	grid.SetColLabelValue(4, "transfered")
 
-	db := SqlInit()
-	tl := TransactionsFrom(db)
+	db := sql.SqlInit()
+	tl := sql.TransactionsFrom(db)
 	for i, t := range tl.Items {
 		grid.SetCellValue(i, 0, timeago.FromDuration(time.Since(time.Unix(t.Created, 0))))
 		grid.SetCellValue(i, 1, t.Id)
@@ -84,10 +83,6 @@ func NewLogFrame() TheFrame {
 
 	wx.Bind(f.frame, wx.EVT_THREAD, f.evtThread, THE_WORKER_ID)
 	return f
-}
-
-func SetDbPath(db string) {
-	dbPath = db
 }
 
 func Setup() {

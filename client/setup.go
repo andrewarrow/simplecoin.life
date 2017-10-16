@@ -2,6 +2,7 @@ package client
 
 import "github.com/dontpanic92/wxGo/wx"
 import "github.com/andrewarrow/simplecoin.life/words"
+import "github.com/andrewarrow/simplecoin.life/sql"
 import "strconv"
 import "fmt"
 import "strings"
@@ -20,11 +21,11 @@ var currentUser string
 
 func send(f *TheFrame) {
 	to := ui_to.GetLineText(0)
-	db := SqlInit()
-	id := FindAvailableCoin(currentUser, db)
+	db := sql.SqlInit()
+	id := sql.FindAvailableCoin(currentUser, db)
 	if id != "" {
 		fmt.Println(id)
-		TransferCoin(to, id, db)
+		sql.TransferCoin(to, id, db)
 		bump(-0.01)
 	}
 }
@@ -38,8 +39,8 @@ func bump(amount float64) {
 }
 
 func take(f *TheFrame) {
-	db := SqlInit()
-	TransferCoinFromGenesis(currentUser, db)
+	db := sql.SqlInit()
+	sql.TransferCoinFromGenesis(currentUser, db)
 	bump(0.01)
 }
 
@@ -58,8 +59,8 @@ func login(f *TheFrame) {
 	balanceLabel := wx.NewStaticText(f.frame, wx.ID_ANY, "Balance: ☀", wx.DefaultPosition, wx.DefaultSize, 0)
 	row3.Add(balanceLabel, 0, wx.ALL|wx.EXPAND, 5)
 
-	db := SqlInit()
-	coins := (float64(CountByOwner(currentUser, db))) / 100.0
+	db := sql.SqlInit()
+	coins := (float64(sql.CountByOwner(currentUser, db))) / 100.0
 	fmt.Println(coins)
 	c := fmt.Sprintf("%f", coins)
 	fmt.Println(c)

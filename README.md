@@ -1,6 +1,10 @@
 ./simplecoin.life --gui no
 ./simplecoin.life --port 9999 --db zzz --peer 127.0.0.1:9376
 
+1. s1 listens on 0.0.0.0
+2. s2 connects to s1, s1 knows ip is 106.45.14.137
+
+
 1. s1 starts
 2. s2 starts, handshake 2<->1
 3. s1 peers = [s2]
