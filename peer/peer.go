@@ -20,7 +20,9 @@ func handleRequest80(conn net.Conn) {
 		fmt.Println("Error reading:", err.Error())
 	}
 	fmt.Println(string(buff))
-	conn.Write([]byte("Hey there"))
+	conn.Write([]byte("HTTP/1.1 200 OK\r\n"))
+	conn.Write([]byte("Date: Tue, 17 Oct 2017 01:53:16 GMT\r\n"))
+	conn.Write([]byte("\r\n"))
 	conn.Close()
 }
 
