@@ -23,6 +23,14 @@ func handleRequest80(conn net.Conn) {
 	conn.Write([]byte("HTTP/1.1 200 OK\r\n"))
 	conn.Write([]byte("Date: Tue, 17 Oct 2017 01:53:16 GMT\r\n"))
 	conn.Write([]byte("\r\n"))
+	conn.Write([]byte("<html>"))
+	conn.Write([]byte("<head>"))
+	conn.Write([]byte("<title>the simple coin life</title>"))
+	conn.Write([]byte("</head>"))
+	conn.Write([]byte("<body>"))
+	conn.Write([]byte("<h1>the simple coin life</h1>"))
+	conn.Write([]byte("</body>"))
+	conn.Write([]byte("</html>"))
 	conn.Close()
 }
 
