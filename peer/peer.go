@@ -10,6 +10,20 @@ import "bytes"
 var myPort = ""
 var myPeers = []string{}
 
+func handleRequest80(conn net.Conn) {
+	remoteAddr := conn.RemoteAddr().(*net.TCPAddr)
+	s := remoteAddr.IP.String()
+	fmt.Println("Connection from: " + s)
+	buff := make([]byte, 1024)
+	_, err := conn.Read(buff)
+	if err != nil {
+		fmt.Println("Error reading:", err.Error())
+	}
+	fmt.Println(string(buff))
+	conn.Write([]byte("Hey there"))
+	conn.Close()
+}
+
 func handleRequest(conn net.Conn) {
 	remoteAddr := conn.RemoteAddr().(*net.TCPAddr)
 	s := remoteAddr.IP.String()
@@ -74,13 +88,30 @@ func Listen(port string) {
 	}
 	defer l.Close()
 
-	obi := GetOutboundIP()
-	fmt.Println("listening at " + obi + ":" + port)
+	fmt.Println("listening at " + ":" + port)
 	for {
 		conn, err := l.Accept()
 		if err != nil {
 			fmt.Println("Error accepting: ", err.Error())
 		}
 		go handleRequest(conn)
+	}
+}
+
+func Listen80() {
+	l, err := net.Listen("tcp", "0.0.0.0:80")
+	if err != nil {
+		fmt.Println("Error listening:", err.Error())
+		return
+	}
+	defer l.Close()
+
+	fmt.Println("listening at " + ":80")
+	for {
+		conn, err := l.Accept()
+		if err != nil {
+			fmt.Println("Error accepting: ", err.Error())
+		}
+		go handleRequest80(conn)
 	}
 }
