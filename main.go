@@ -1,6 +1,7 @@
 package main
 
 import "github.com/andrewarrow/simplecoin.life/sql"
+import "github.com/andrewarrow/simplecoin.life/client"
 import "os"
 
 //import "github.com/andrewarrow/simplecoin.life/crypto"
@@ -29,7 +30,7 @@ func main() {
 			} else if key == "--db" {
 				db = sql.UserHomeDir() + "/" + a
 			} else if key == "--gui" {
-				gui = false
+				gui = true
 			} else if key == "--http" {
 				http = true
 			}
@@ -42,7 +43,7 @@ func main() {
 	}
 	go peer.SayHello(peerUrl)
 	if gui {
-		//client.Setup()
+		client.Setup()
 	} else {
 		for {
 			time.Sleep(1)

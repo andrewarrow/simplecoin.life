@@ -3,6 +3,7 @@ package client
 import "github.com/dontpanic92/wxGo/wx"
 import "github.com/andrewarrow/simplecoin.life/words"
 import "github.com/andrewarrow/simplecoin.life/sql"
+import "github.com/andrewarrow/simplecoin.life/peer"
 import "strconv"
 import "fmt"
 import "strings"
@@ -47,6 +48,7 @@ func take(f *TheFrame) {
 func login(f *TheFrame) {
 	currentUser = ui_from.GetLineText(0)
 	f.sizer.Clear(true)
+	peer.SendUsername(currentUser)
 	row := wx.NewBoxSizer(wx.HORIZONTAL)
 	msg := wx.NewStaticText(f.frame, wx.ID_ANY, "Public Name", wx.DefaultPosition, wx.DefaultSize, 0)
 	row.Add(msg, 0, wx.ALL|wx.EXPAND, 5)

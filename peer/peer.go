@@ -34,6 +34,21 @@ func handleRequest80(conn net.Conn) {
 	conn.Close()
 }
 
+func SendUsername(username string) {
+	conn, err := net.DialTimeout("tcp", "simplecoin.life:80", 9000*9000)
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+	defer conn.Close()
+
+	fmt.Fprintf(conn, "IAM "+username+"\n")
+	var buff bytes.Buffer
+	io.Copy(&buff, conn)
+	data := string(buff.Bytes())
+	fmt.Println("got: ", data)
+}
+
 func handleRequest(conn net.Conn) {
 	remoteAddr := conn.RemoteAddr().(*net.TCPAddr)
 	s := remoteAddr.IP.String()

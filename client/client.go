@@ -89,7 +89,7 @@ func Setup() {
 	wx1 := wx.NewApp()
 	f := NewTheFrame()
 	f.frame.Show()
-	f2 := NewLogFrame()
-	f2.frame.Show()
+	//f2 := NewLogFrame()
+	//f2.frame.Show()
 	wx1.MainLoop()
 }
