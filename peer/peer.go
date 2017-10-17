@@ -6,9 +6,10 @@ import "fmt"
 import "net"
 import "io"
 import "bytes"
+import "strings"
 
 var myPort = ""
-var myPeers = []string{}
+var myPeers = map[string]string{"": ""}
 
 func handleRequest80(conn net.Conn) {
 	remoteAddr := conn.RemoteAddr().(*net.TCPAddr)
@@ -19,18 +20,27 @@ func handleRequest80(conn net.Conn) {
 	if err != nil {
 		fmt.Println("Error reading:", err.Error())
 	}
+	data := string(buff)
 	fmt.Println(string(buff))
-	conn.Write([]byte("HTTP/1.1 200 OK\r\n"))
-	conn.Write([]byte("Date: Tue, 17 Oct 2017 01:53:16 GMT\r\n"))
-	conn.Write([]byte("\r\n"))
-	conn.Write([]byte("<html>"))
-	conn.Write([]byte("<head>"))
-	conn.Write([]byte("<title>the simple coin life</title>"))
-	conn.Write([]byte("</head>"))
-	conn.Write([]byte("<body>"))
-	conn.Write([]byte("<h1>the simple coin life</h1>"))
-	conn.Write([]byte("</body>"))
-	conn.Write([]byte("</html>"))
+	if strings.HasPrefix(data, "IAM ") {
+		tokens := strings.Split(data, " ")
+		myPeers[tokens[1]] = "hi"
+		for k, _ := range myPeers {
+			conn.Write([]byte(k + "\n"))
+		}
+	} else {
+		conn.Write([]byte("HTTP/1.1 200 OK\r\n"))
+		conn.Write([]byte("Date: Tue, 17 Oct 2017 01:53:16 GMT\r\n"))
+		conn.Write([]byte("\r\n"))
+		conn.Write([]byte("<html>"))
+		conn.Write([]byte("<head>"))
+		conn.Write([]byte("<title>the simple coin life</title>"))
+		conn.Write([]byte("</head>"))
+		conn.Write([]byte("<body>"))
+		conn.Write([]byte("<h1>the simple coin life</h1>"))
+		conn.Write([]byte("</body>"))
+		conn.Write([]byte("</html>"))
+	}
 	conn.Close()
 }
 
