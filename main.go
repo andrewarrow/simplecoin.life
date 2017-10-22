@@ -34,6 +34,7 @@ func main() {
 		}
 	}
 	sql.SetDbPath(db)
+	peer.FindPeers()
 	go peer.Listen(port)
 	go peer.SayHello(peerUrl)
 	if gui {

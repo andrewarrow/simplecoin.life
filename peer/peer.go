@@ -69,13 +69,14 @@ func handleRequest(conn net.Conn) {
 	if err != nil {
 		fmt.Println("Error reading:", err.Error())
 	}
-	db := sql.SqlInit()
-	tl := sql.TransactionsFrom(db)
 
 	command := string(buff)
+	command = strings.TrimSpace(command)
 	if command == "HELLO" {
 		conn.Write([]byte("hi"))
 	} else if command == "TX" {
+		db := sql.SqlInit()
+		tl := sql.TransactionsFrom(db)
 		conn.Write([]byte(tl.Encode()))
 	} else {
 		conn.Write([]byte("?"))
