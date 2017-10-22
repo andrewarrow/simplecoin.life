@@ -70,8 +70,11 @@ func handleRequest(conn net.Conn) {
 		fmt.Println("Error reading:", err.Error())
 	}
 
-	command := string(buff)
-	command = strings.TrimSpace(command)
+	raw := string(buff)
+	raw = strings.TrimSpace(raw)
+	fmt.Println("|" + raw + "|")
+	tokens := strings.Split(raw, " ")
+	command := tokens[0]
 	if command == "HELLO" {
 		conn.Write([]byte("hi"))
 	} else if command == "TX" {
@@ -84,7 +87,28 @@ func handleRequest(conn net.Conn) {
 	conn.Close()
 }
 
-func SayHello(peer string) {
+func Handshake(peer string, version string) string {
+	conn, err := net.DialTimeout("tcp", fmt.Sprintf("%s:8666", peer), 9000*9000)
+	if err != nil {
+		fmt.Println(err)
+		return ""
+	}
+	defer conn.Close()
+	fmt.Fprintf(conn, "HELLO "+version+"\n")
+	var buff bytes.Buffer
+	io.Copy(&buff, conn)
+	res := string(buff.Bytes())
+	return res
+}
+
+func SayHello(version string) {
+	for _, p := range FindPeers() {
+		res := Handshake(p, version)
+		fmt.Println(res)
+	}
+}
+
+func OldSayHello(peer string) {
 	conn, err := net.DialTimeout("tcp", peer, 9000*9000)
 	if err != nil {
 		fmt.Println(err)

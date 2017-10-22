@@ -1,3 +1,5 @@
+ufw allow 8666
+
 ./simplecoin.life --gui no
 ./simplecoin.life --port 9999 --db zzz --peer 127.0.0.1:9376
 

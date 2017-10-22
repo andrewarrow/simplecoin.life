@@ -10,10 +10,11 @@ import "time"
 
 //import "fmt"
 
+var version = "0.1"
+
 func main() {
 	args := os.Args[1:]
 	port := "8666"
-	peerUrl := ""
 	gui := false
 	db := sql.UserHomeDir() + "/.scl.db"
 
@@ -24,8 +25,6 @@ func main() {
 		} else {
 			if key == "--port" {
 				port = a
-			} else if key == "--peer" {
-				peerUrl = a
 			} else if key == "--db" {
 				db = sql.UserHomeDir() + "/" + a
 			} else if key == "--gui" {
@@ -34,9 +33,8 @@ func main() {
 		}
 	}
 	sql.SetDbPath(db)
-	peer.FindPeers()
 	go peer.Listen(port)
-	go peer.SayHello(peerUrl)
+	go peer.SayHello(version)
 	if gui {
 		client.Setup()
 	} else {
