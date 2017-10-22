@@ -51,12 +51,11 @@ func handleRequest(conn net.Conn) {
 		} else {
 			conn.Write([]byte("bad version"))
 		}
-	} else if command == "TOTAL" {
-		conn.Write([]byte("4500"))
-	} else if command == "TX" {
+	} else if command == "LAST" {
 		db := sql.SqlInit()
 		tl := sql.TransactionsFrom(db)
 		conn.Write([]byte(tl.Encode()))
+	} else if command == "TX" {
 	} else {
 		conn.Write([]byte("?"))
 	}
@@ -103,8 +102,9 @@ func SayHello(version string) {
 		}
 	}
 
-	reply := AskPeerFor(mainPeer, "TOTAL")
-	fmt.Println("|" + reply)
+	reply := AskPeerFor(mainPeer, "LAST")
+	tl := crypto.DataToTransactionList([]byte(reply))
+	fmt.Println(len(tl.Items))
 
 }
 
