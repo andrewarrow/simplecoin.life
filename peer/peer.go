@@ -5,44 +5,12 @@ import "github.com/andrewarrow/simplecoin.life/crypto"
 import "fmt"
 import "net"
 import "io"
+import "time"
 import "bytes"
 import "strings"
 
 var myPort = ""
-var myPeers = map[string]string{"": ""}
-
-func handleRequest80(conn net.Conn) {
-	remoteAddr := conn.RemoteAddr().(*net.TCPAddr)
-	s := remoteAddr.IP.String()
-	fmt.Println("Connection from: " + s)
-	buff := make([]byte, 1024)
-	_, err := conn.Read(buff)
-	if err != nil {
-		fmt.Println("Error reading:", err.Error())
-	}
-	data := string(buff)
-	fmt.Println(string(buff))
-	if strings.HasPrefix(data, "IAM ") {
-		tokens := strings.Split(data, " ")
-		myPeers[tokens[1]] = "hi"
-		for k, _ := range myPeers {
-			conn.Write([]byte(k + "\n"))
-		}
-	} else {
-		conn.Write([]byte("HTTP/1.1 200 OK\r\n"))
-		conn.Write([]byte("Date: Tue, 17 Oct 2017 01:53:16 GMT\r\n"))
-		conn.Write([]byte("\r\n"))
-		conn.Write([]byte("<html>"))
-		conn.Write([]byte("<head>"))
-		conn.Write([]byte("<title>the simple coin life</title>"))
-		conn.Write([]byte("</head>"))
-		conn.Write([]byte("<body>"))
-		conn.Write([]byte("<h1>the simple coin life</h1>"))
-		conn.Write([]byte("</body>"))
-		conn.Write([]byte("</html>"))
-	}
-	conn.Close()
-}
+var myPeers = map[string]int64{"": 0}
 
 func SendUsername(username string) {
 	conn, err := net.DialTimeout("tcp", "simplecoin.life:80", 9000*9000)
@@ -72,11 +40,19 @@ func handleRequest(conn net.Conn) {
 
 	raw := string(buff)
 	raw = strings.TrimSpace(raw)
-	fmt.Println("|" + raw + "|")
+	//fmt.Println("|" + raw + "|")
 	tokens := strings.Split(raw, " ")
 	command := tokens[0]
+	fmt.Println("|" + command + "|")
+	param := tokens[1]
 	if command == "HELLO" {
-		conn.Write([]byte("hi"))
+		if param == "0.1" {
+			conn.Write([]byte("ok"))
+		} else {
+			conn.Write([]byte("bad version"))
+		}
+	} else if command == "TOTAL" {
+		conn.Write([]byte("4500"))
 	} else if command == "TX" {
 		db := sql.SqlInit()
 		tl := sql.TransactionsFrom(db)
@@ -101,11 +77,35 @@ func Handshake(peer string, version string) string {
 	return res
 }
 
+func AskPeerFor(peer string, thing string) string {
+	conn, err := net.DialTimeout("tcp", fmt.Sprintf("%s:8666", peer), 9000*9000)
+	if err != nil {
+		fmt.Println(err)
+		return ""
+	}
+	defer conn.Close()
+	fmt.Fprintf(conn, fmt.Sprintf("%s 0\n", thing))
+	var buff bytes.Buffer
+	io.Copy(&buff, conn)
+	res := string(buff.Bytes())
+	return res
+}
+
 func SayHello(version string) {
+	var mainPeer = ""
 	for _, p := range FindPeers() {
 		res := Handshake(p, version)
-		fmt.Println(res)
+		if res == "ok" {
+			fmt.Println(res)
+			mainPeer = p
+			myPeers[p] = time.Now().Unix()
+			break
+		}
 	}
+
+	reply := AskPeerFor(mainPeer, "TOTAL")
+	fmt.Println("|" + reply)
+
 }
 
 func OldSayHello(peer string) {
