@@ -8,6 +8,7 @@ import "io"
 import "time"
 import "bytes"
 import "strings"
+import "strconv"
 
 var myPort = ""
 var myPeers = map[string]int64{"": 0}
@@ -53,7 +54,8 @@ func handleRequest(conn net.Conn) {
 		}
 	} else if command == "LAST" {
 		db := sql.SqlInit()
-		tl := sql.TransactionsFrom(db)
+		offset, _ := strconv.Atoi(param)
+		tl := sql.TransactionsFrom(db, 100, offset)
 		conn.Write([]byte(tl.Encode()))
 	} else if command == "TX" {
 	} else {
@@ -76,14 +78,14 @@ func Handshake(peer string, version string) string {
 	return res
 }
 
-func AskPeerFor(peer string, thing string) string {
+func AskPeerFor(peer string, thing string, param string) string {
 	conn, err := net.DialTimeout("tcp", fmt.Sprintf("%s:8666", peer), 9000*9000)
 	if err != nil {
 		fmt.Println(err)
 		return ""
 	}
 	defer conn.Close()
-	fmt.Fprintf(conn, fmt.Sprintf("%s 0\n", thing))
+	fmt.Fprintf(conn, fmt.Sprintf("%s %s\n", thing, param))
 	var buff bytes.Buffer
 	io.Copy(&buff, conn)
 	res := string(buff.Bytes())
@@ -102,8 +104,12 @@ func SayHello(version string) {
 		}
 	}
 
-	reply := AskPeerFor(mainPeer, "LAST")
+	reply := AskPeerFor(mainPeer, "LAST", "0")
 	tl := crypto.DataToTransactionList([]byte(reply))
+	fmt.Println(len(tl.Items))
+
+	reply = AskPeerFor(mainPeer, "LAST", "60000")
+	tl = crypto.DataToTransactionList([]byte(reply))
 	fmt.Println(len(tl.Items))
 
 }

@@ -66,7 +66,7 @@ func NewLogFrame() TheFrame {
 	grid.SetColLabelValue(4, "transfered")
 
 	db := sql.SqlInit()
-	tl := sql.TransactionsFrom(db)
+	tl := sql.TransactionsFrom(db, 100, 0)
 	for i, t := range tl.Items {
 		grid.SetCellValue(i, 0, timeago.FromDuration(time.Since(time.Unix(t.Created, 0))))
 		grid.SetCellValue(i, 1, t.Id)
