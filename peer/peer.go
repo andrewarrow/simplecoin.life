@@ -52,7 +52,7 @@ func SendUsername(username string) {
 	}
 	defer conn.Close()
 
-	fmt.Fprintf(conn, "IAM "+username+"\n")
+	fmt.Fprintf(conn, "IAM "+username+"")
 	var buff bytes.Buffer
 	io.Copy(&buff, conn)
 	data := string(buff.Bytes())
@@ -72,8 +72,14 @@ func handleRequest(conn net.Conn) {
 	db := sql.SqlInit()
 	tl := sql.TransactionsFrom(db)
 
-	fmt.Println(string(buff))
-	conn.Write([]byte(tl.Encode()))
+	command := string(buff)
+	if command == "HELLO" {
+		conn.Write([]byte("hi"))
+	} else if command == "TX" {
+		conn.Write([]byte(tl.Encode()))
+	} else {
+		conn.Write([]byte("?"))
+	}
 	conn.Close()
 }
 
@@ -130,23 +136,5 @@ func Listen(port string) {
 			fmt.Println("Error accepting: ", err.Error())
 		}
 		go handleRequest(conn)
-	}
-}
-
-func Listen80() {
-	l, err := net.Listen("tcp", "0.0.0.0:80")
-	if err != nil {
-		fmt.Println("Error listening:", err.Error())
-		return
-	}
-	defer l.Close()
-
-	fmt.Println("listening at " + ":80")
-	for {
-		conn, err := l.Accept()
-		if err != nil {
-			fmt.Println("Error accepting: ", err.Error())
-		}
-		go handleRequest80(conn)
 	}
 }

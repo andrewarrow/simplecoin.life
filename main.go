@@ -16,7 +16,6 @@ func main() {
 	peerUrl := ""
 	gui := false
 	db := sql.UserHomeDir() + "/.scl.db"
-	http := false
 
 	key := ""
 	for i, a := range args {
@@ -31,16 +30,11 @@ func main() {
 				db = sql.UserHomeDir() + "/" + a
 			} else if key == "--gui" {
 				gui = true
-			} else if key == "--http" {
-				http = true
 			}
 		}
 	}
 	sql.SetDbPath(db)
 	go peer.Listen(port)
-	if http {
-		go peer.Listen80()
-	}
 	go peer.SayHello(peerUrl)
 	if gui {
 		client.Setup()
