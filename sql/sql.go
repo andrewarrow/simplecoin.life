@@ -1,19 +1,44 @@
 package sql
 
 import "database/sql"
-import _ "github.com/mattn/go-sqlite3"
-import "runtime"
-import "time"
+
+//import _ "github.com/mattn/go-sqlite3"
+import _ "github.com/go-sql-driver/mysql"
+
+//import "runtime"
+//import "time"
 
 import "fmt"
 
+var dbconf map[string]string = map[string]string{
+	"user":     "root",
+	"password": "root",
+	"host":     "127.0.0.1:3306",
+	"name":     "simplecoin",
+}
+
+var db *sql.DB
+
+func dburl() string {
+	return fmt.Sprintf("%s:%s@tcp(%s)/%s?timeout=5s",
+		dbconf["user"], dbconf["password"], dbconf["host"], dbconf["name"])
+}
+
+func InsertTransaction(id string, value int64, address string) {
+
+	if db == nil {
+		db, _ = sql.Open("mysql", dburl())
+	}
+	statement, _ := db.Prepare("insert into transactions (id, ts, value, address) values (?,now(),?,?);")
+	fmt.Println(id, value, address)
+	statement.Exec(id, value, address)
+	defer statement.Close()
+}
+
 //import "encoding/base64"
-import "os"
-import "github.com/andrewarrow/simplecoin.life/words"
-import "github.com/andrewarrow/simplecoin.life/crypto"
+//import "os"
 
-var dbPath string
-
+/*
 func SetDbPath(db string) {
 	dbPath = db
 }
@@ -105,4 +130,4 @@ func TransactionsFrom(database *sql.DB, limit, offset int) crypto.TransactionLis
 	}
 	defer rows.Close()
 	return tl
-}
+}*/

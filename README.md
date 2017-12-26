@@ -1,3 +1,35 @@
+
+CREATE TABLE transactions (id varchar(81), ts datetime, value bigint,
+                           address varchar(81), PRIMARY KEY (id), KEY (address), KEY (ts));
+
+insert into transactions (id, ts, value, address) values ('first', '2017-12-25 23:59', 2779530283277761, 'root');
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 ufw allow 8666
 
 ./simplecoin.life --gui no
