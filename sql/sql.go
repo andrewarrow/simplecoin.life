@@ -24,6 +24,25 @@ func dburl() string {
 		dbconf["user"], dbconf["password"], dbconf["host"], dbconf["name"])
 }
 
+func InsertBundleInput(bundle_id, tx_id string, idx int) {
+
+	if db == nil {
+		db, _ = sql.Open("mysql", dburl())
+	}
+	statement, _ := db.Prepare("insert into bundle_inputs (bundle_id, tx_id, idx) values (?,?,?);")
+	statement.Exec(bundle_id, tx_id, idx)
+	defer statement.Close()
+}
+func InsertBundleOutput(bundle_id, tx_id string, idx int) {
+
+	if db == nil {
+		db, _ = sql.Open("mysql", dburl())
+	}
+	statement, _ := db.Prepare("insert into bundle_outputs (bundle_id, tx_id, idx) values (?,?,?);")
+	statement.Exec(bundle_id, tx_id, idx)
+	defer statement.Close()
+}
+
 func InsertTransaction(id string, value int64, address string) {
 
 	if db == nil {

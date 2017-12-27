@@ -1,9 +1,39 @@
 
+CREATE TABLE bundle_inputs (bundle_id varchar(81), tx_id varchar(81), idx integer, PRIMARY KEY (bundle_id, tx_id));
+CREATE TABLE bundle_outputs (bundle_id varchar(81), tx_id varchar(81), idx integer, PRIMARY KEY (bundle_id, tx_id));
 CREATE TABLE transactions (id varchar(81), ts datetime, value bigint,
                            address varchar(81), PRIMARY KEY (id), KEY (address), KEY (ts));
 
 insert into transactions (id, ts, value, address) values ('first', '2017-12-25 23:59', 2779530283277761, 'root');
 
+
+Bundle
+
+    The 0th transaction is the spend transaction, where you transfer IOTAs to the recipient's address.
+
+    The remaining transactions are inputs, where you transfer IOTAs from your addresses to fund the spend. 
+
+    Each input transaction contains a signature fragment that proves that you own the private key 
+
+    By default, signatures are so big that each one requires 2 transactions to store it. 
+    This is configurable depending on the "security level" of the corresponding address — 
+    it can be between 1 and 3. 
+    If the sum of the inputs is greater than the spend, then an additional transaction is added to the end of the bundle that sends the change to an address that you own.
+
+
+first you construct "raw" bundle
+then you calculate bundle hash
+then you sign that hash
+and copy signatures into corresponding txs with correct offset
+
+https://forum.iota.org/t/interesting-devs-conversation-on-bundles-transactions-hashing-of-pow-signature-in-iota/1399
+
+does the bundle consists of tx ids?
+
+there is no such structure as bundle, it's manifested only on meta-level
+bundle is set of txs
+so we can't say that bundle consists of tx ids, it consists of txs
+which have ids/hashes (edited)
 
 
 
