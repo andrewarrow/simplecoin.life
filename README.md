@@ -9,6 +9,7 @@ CREATE TABLE transactions (id varchar(81), ts datetime, value bigint,
                            address varchar(81), PRIMARY KEY (id), KEY (address), KEY (ts));
 
 
+
 "Trunk" and "Branch" are hashes of other transactions, namely the two transactions that were approved by the transaction you are currently looking at.
 
 Bundle
