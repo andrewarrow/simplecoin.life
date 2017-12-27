@@ -43,18 +43,18 @@ func InsertBundleOutput(bundle_id, tx_id string, idx int) {
 	defer statement.Close()
 }
 
-func InsertTransaction(id, bundle, address, signature string, value int64) {
+func InsertTransaction(id, bundle, address, signature string, value int64, current, last int) {
 
 	if db == nil {
 		db, _ = sql.Open("mysql", dburl())
 	}
 	if signature == "" {
-		statement, _ := db.Prepare("insert into transactions (id, bundle, ts, value, address) values (?,?,now(),?,?);")
-		statement.Exec(id, bundle, value, address)
+		statement, _ := db.Prepare("insert into transactions (id, bundle, ts, value, address, current_index, last_index) values (?,?,now(),?,?,?,?);")
+		statement.Exec(id, bundle, value, address, current, last)
 		statement.Close()
 	} else {
-		statement, _ := db.Prepare("insert into transactions (id, bundle, ts, value, address, signature) values (?,?,now(),?,?,?);")
-		statement.Exec(id, bundle, value, address, signature)
+		statement, _ := db.Prepare("insert into transactions (id, bundle, ts, value, address, signature, current_index, last_index) values (?,?,now(),?,?,?,?,?);")
+		statement.Exec(id, bundle, value, address, signature, current, last)
 		statement.Close()
 	}
 }

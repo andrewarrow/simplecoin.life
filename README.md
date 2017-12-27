@@ -1,6 +1,4 @@
 
-CREATE TABLE bundle_inputs (bundle varchar(81), tx varchar(81), idx integer, PRIMARY KEY (bundle, tx));
-CREATE TABLE bundle_outputs (bundle varchar(81), tx varchar(81), idx integer, PRIMARY KEY (bundle, tx));
 CREATE TABLE transactions (id varchar(81), ts datetime, value bigint,
                            signature varchar(81),
                            current_index integer,
