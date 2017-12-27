@@ -7,11 +7,12 @@ import "fmt"
 var version = "0.1"
 
 func main() {
-	sql.InsertTransaction("genesis", 2779530283277761, "root")
+	sql.InsertTransaction("genesis", "genesis", "root", "", 2779530283277761, 0, 1)
 	bundle_id := words.BigWords()
 	txid := words.BigWords()
-	sql.InsertTransaction(txid, -1*2779530283277761, "root")
-	sql.InsertBundleInput(bundle_id, txid, 0)
+	// Each input transaction contains a signature fragment that proves that you own the private key
+	sql.InsertTransaction(txid, bundle_id, "root", "siseneg", -1*2779530283277761, 0, 1151449)
+	//sql.InsertBundleInput(bundle_id, txid, 0)
 	value := int64(2413941289)
 	i := 0
 	for {
@@ -21,8 +22,8 @@ func main() {
 		fmt.Println(i)
 		txid = words.BigWords()
 		address := words.BigWords()
-		sql.InsertTransaction(txid, value, address)
-		sql.InsertBundleOutput(bundle_id, txid, i)
+		sql.InsertTransaction(txid, bundle_id, address, "", value, i, 1151449)
+		//sql.InsertBundleOutput(bundle_id, txid, i)
 		i++
 	}
 }

@@ -14,7 +14,7 @@ var dbconf map[string]string = map[string]string{
 	"user":     "root",
 	"password": "root",
 	"host":     "127.0.0.1:3306",
-	"name":     "simplecoin",
+	"name":     "iotame",
 }
 
 var db *sql.DB
@@ -43,15 +43,20 @@ func InsertBundleOutput(bundle_id, tx_id string, idx int) {
 	defer statement.Close()
 }
 
-func InsertTransaction(id string, value int64, address string) {
+func InsertTransaction(id, bundle, address, signature string, value int64) {
 
 	if db == nil {
 		db, _ = sql.Open("mysql", dburl())
 	}
-	statement, _ := db.Prepare("insert into transactions (id, ts, value, address) values (?,now(),?,?);")
-	fmt.Println(id, value, address)
-	statement.Exec(id, value, address)
-	defer statement.Close()
+	if signature == "" {
+		statement, _ := db.Prepare("insert into transactions (id, bundle, ts, value, address) values (?,?,now(),?,?);")
+		statement.Exec(id, bundle, value, address)
+		statement.Close()
+	} else {
+		statement, _ := db.Prepare("insert into transactions (id, bundle, ts, value, address, signature) values (?,?,now(),?,?,?);")
+		statement.Exec(id, bundle, value, address, signature)
+		statement.Close()
+	}
 }
 
 //import "encoding/base64"

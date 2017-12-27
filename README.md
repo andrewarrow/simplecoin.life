@@ -1,11 +1,17 @@
 
-CREATE TABLE bundle_inputs (bundle_id varchar(81), tx_id varchar(81), idx integer, PRIMARY KEY (bundle_id, tx_id));
-CREATE TABLE bundle_outputs (bundle_id varchar(81), tx_id varchar(81), idx integer, PRIMARY KEY (bundle_id, tx_id));
+CREATE TABLE bundle_inputs (bundle varchar(81), tx varchar(81), idx integer, PRIMARY KEY (bundle, tx));
+CREATE TABLE bundle_outputs (bundle varchar(81), tx varchar(81), idx integer, PRIMARY KEY (bundle, tx));
 CREATE TABLE transactions (id varchar(81), ts datetime, value bigint,
+                           signature varchar(81),
+                           current_index integer,
+                           last_index integer,
+                           bundle varchar(81),
+                           trunk varchar(81),
+                           branch varchar(81),
                            address varchar(81), PRIMARY KEY (id), KEY (address), KEY (ts));
 
-insert into transactions (id, ts, value, address) values ('first', '2017-12-25 23:59', 2779530283277761, 'root');
 
+"Trunk" and "Branch" are hashes of other transactions, namely the two transactions that were approved by the transaction you are currently looking at.
 
 Bundle
 
