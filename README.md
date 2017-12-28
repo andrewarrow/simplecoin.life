@@ -6,9 +6,9 @@
 6. tag
 
 
-CREATE TABLE bundles (id varchar(81), ts datetime, last_index int, PRIMARY KEY(id), key(ts));
+CREATE TABLE bundles (id varchar(81), ts datetime(6), last_index int, PRIMARY KEY(id), key(ts));
 
-CREATE TABLE transactions (id varchar(81), ts datetime, value bigint,
+CREATE TABLE transactions (id varchar(81), ts datetime(6), value bigint,
                            signature varchar(81),
                            current_index integer,
                            last_index integer,

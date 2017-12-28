@@ -3,6 +3,7 @@ package main
 import "github.com/andrewarrow/simplecoin.life/words"
 import "github.com/andrewarrow/simplecoin.life/sql"
 import "fmt"
+import "math"
 
 var version = "0.1"
 
@@ -14,8 +15,32 @@ func Reverse(s string) string {
 	return string(runes)
 }
 
+func divAndTx(a int64) []int64 {
+	m := math.Mod(float64(a), float64(2))
+	if m == 0 {
+		return []int64{a / 2, a / 2}
+	} else {
+		return []int64{a / 2, (a / 2) + 1}
+	}
+}
+
 func main() {
-	sql.InsertTransaction("genesis", "genesis", "root", "", 2779530283277761, 0, 0)
+	//sql.InsertTransaction("genesis", "genesis", "root", "", 2779530283277761, 0, 0)
+
+	amount := int64(2779530283277761)
+	items := divAndTx(amount)
+	fmt.Println(items)
+	/*
+
+		  0 o 1389765141638880 1389765141638881
+			1 e 694882570819440 694882570819440
+			1 o 694882570819440 694882570819441
+	*/
+
+}
+
+func main2() {
+
 	bundle_id := words.BigWords()
 	txid := words.BigWords()
 	// Each input transaction contains a signature fragment that proves that you own the private key
