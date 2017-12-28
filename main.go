@@ -20,6 +20,7 @@ func main() {
 	txid := words.BigWords()
 	// Each input transaction contains a signature fragment that proves that you own the private key
 	sql.InsertTransaction(txid, bundle_id, "root", "siseneg", -1*2779530283277761, 0, 1151448)
+	sql.UpdateTransaction(txid, "genesis", "genesis")
 	value := int64(2413941289)
 	i := 0
 	var address string
@@ -33,8 +34,10 @@ func main() {
 		address = words.BigWords()
 		items = append(items, txid)
 		sql.InsertTransaction(txid, bundle_id, address, "", value, i, 1151448)
+		sql.UpdateTransaction(txid, "genesis", "genesis")
 		i++
 	}
+	sql.InsertBundle(bundle_id, 1151448)
 
 	/*
 		"Trunk" and "Branch" are hashes of other transactions, namely the two transactions that were approved by the transaction you are currently looking at.  */
@@ -59,6 +62,7 @@ func main() {
 	sql.UpdateTransaction(items[0], items[1], trunk)
 	sql.UpdateTransaction(items[1], items[2], trunk)
 	sql.UpdateTransaction(items[2], trunk, branch)
+	sql.InsertBundle(bundle_id, 2)
 
 }
 

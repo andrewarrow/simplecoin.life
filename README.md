@@ -1,3 +1,12 @@
+1. make new address
+2. trans with 0 value
+3. messages
+4. change address always new
+5. nonce
+6. tag
+
+
+CREATE TABLE bundles (id varchar(81), ts datetime, last_index int, PRIMARY KEY(id), key(ts));
 
 CREATE TABLE transactions (id varchar(81), ts datetime, value bigint,
                            signature varchar(81),
@@ -6,7 +15,8 @@ CREATE TABLE transactions (id varchar(81), ts datetime, value bigint,
                            bundle varchar(81),
                            trunk varchar(81),
                            branch varchar(81),
-                           address varchar(81), PRIMARY KEY (id), KEY (address), KEY (ts));
+                           address varchar(81), PRIMARY KEY (id), 
+                           KEY (address), KEY (ts), KEY (bundle));
 
 
 

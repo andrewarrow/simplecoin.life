@@ -24,22 +24,13 @@ func dburl() string {
 		dbconf["user"], dbconf["password"], dbconf["host"], dbconf["name"])
 }
 
-func InsertBundleInput(bundle_id, tx_id string, idx int) {
+func InsertBundle(bundle_id string, last_index int) {
 
 	if db == nil {
 		db, _ = sql.Open("mysql", dburl())
 	}
-	statement, _ := db.Prepare("insert into bundle_inputs (bundle_id, tx_id, idx) values (?,?,?);")
-	statement.Exec(bundle_id, tx_id, idx)
-	defer statement.Close()
-}
-func InsertBundleOutput(bundle_id, tx_id string, idx int) {
-
-	if db == nil {
-		db, _ = sql.Open("mysql", dburl())
-	}
-	statement, _ := db.Prepare("insert into bundle_outputs (bundle_id, tx_id, idx) values (?,?,?);")
-	statement.Exec(bundle_id, tx_id, idx)
+	statement, _ := db.Prepare("insert into bundles (id, ts, last_index) values (?,now(),?);")
+	statement.Exec(bundle_id, last_index)
 	defer statement.Close()
 }
 
