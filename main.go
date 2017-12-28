@@ -6,6 +6,14 @@ import "fmt"
 
 var version = "0.1"
 
+func Reverse(s string) string {
+	runes := []rune(s)
+	for i, j := 0, len(runes)-1; i < j; i, j = i+1, j-1 {
+		runes[i], runes[j] = runes[j], runes[i]
+	}
+	return string(runes)
+}
+
 func main() {
 	sql.InsertTransaction("genesis", "genesis", "root", "", 2779530283277761, 0, 0)
 	bundle_id := words.BigWords()
@@ -29,18 +37,28 @@ func main() {
 	}
 
 	/*
-		"Trunk" and "Branch" are hashes of other transactions, namely the two transactions that were approved by the transaction you are currently looking at.
+		"Trunk" and "Branch" are hashes of other transactions, namely the two transactions that were approved by the transaction you are currently looking at.  */
 
-			transaction (index 0) references in the trunkTransaction the transaction hash at index: 1
-			index 1 references (and approves) index 2 and so on.
-	*/
+	trunk := items[512]
+	branch := items[9003]
 
+	items = []string{}
 	bundle_id = words.BigWords()
 	txid = words.BigWords()
-	sql.InsertTransaction(txid, bundle_id, address, "siseneg", -1*761, 0, 1)
+	sql.InsertTransaction(txid, bundle_id, address, Reverse(address), -1*2413941289, 0, 2)
+	items = append(items, txid)
 	txid = words.BigWords()
 	new_address := words.BigWords()
-	sql.InsertTransaction(txid, bundle_id, new_address, "siseneg", 761, 1, 1)
+	sql.InsertTransaction(txid, bundle_id, new_address, "", 1000, 1, 2)
+	items = append(items, txid)
+	txid = words.BigWords()
+	new_address = words.BigWords()
+	sql.InsertTransaction(txid, bundle_id, new_address, "", 2413940289, 2, 2)
+	items = append(items, txid)
+
+	sql.UpdateTransaction(items[0], items[1], trunk)
+	sql.UpdateTransaction(items[1], items[2], trunk)
+	sql.UpdateTransaction(items[2], trunk, branch)
 
 }
 

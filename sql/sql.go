@@ -43,6 +43,16 @@ func InsertBundleOutput(bundle_id, tx_id string, idx int) {
 	defer statement.Close()
 }
 
+func UpdateTransaction(id, branch, trunk string) {
+
+	if db == nil {
+		db, _ = sql.Open("mysql", dburl())
+	}
+	statement, _ := db.Prepare("update transactions set branch=?, trunk=? where id=?;")
+	statement.Exec(branch, trunk, id)
+	statement.Close()
+}
+
 func InsertTransaction(id, bundle, address, signature string, value int64, current, last int) {
 
 	if db == nil {
