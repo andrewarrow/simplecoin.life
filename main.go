@@ -41,6 +41,32 @@ func simpleBundle(from, to, trunk, branch string, value, balance int64) string {
 
 func main() {
 	sql.InsertTransaction("genesis", "genesis", "root", "", 2779530283277761, 0, 0)
+	i := 0
+	var address string
+	var from string = "root"
+	value := int64(2413941289)
+	balance := int64(2779530283277761)
+	for {
+		if i >= 1151449 {
+			break
+		}
+		fmt.Println(i)
+		address = words.BigWords()
+		from = simpleBundle(from, address, "genesis", "genesis", value, balance)
+		balance = balance - value
+		//func simpleBundle(from, to, trunk, branch string, value, balance int64) string {
+		i++
+	}
+}
+
+/*
+
+
+
+
+
+	"Trunk" and "Branch" are hashes of other transactions, namely the two transactions that were approved by the transaction you are currently looking at.
+
 
 	bundle_id := words.BigWords()
 	txid := words.BigWords()
@@ -64,35 +90,6 @@ func main() {
 		i++
 	}
 	sql.InsertBundle(bundle_id, 1151448)
-
-	/*
-		"Trunk" and "Branch" are hashes of other transactions, namely the two transactions that were approved by the transaction you are currently looking at.  */
-
-	trunk := items[512]
-	branch := items[9003]
-
-	items = []string{}
-	bundle_id = words.BigWords()
-	txid = words.BigWords()
-	sql.InsertTransaction(txid, bundle_id, address, Reverse(address), -1*2413941289, 0, 2)
-	items = append(items, txid)
-	txid = words.BigWords()
-	new_address := words.BigWords()
-	sql.InsertTransaction(txid, bundle_id, new_address, "", 1000, 1, 2)
-	items = append(items, txid)
-	txid = words.BigWords()
-	new_address = words.BigWords()
-	sql.InsertTransaction(txid, bundle_id, new_address, "", 2413940289, 2, 2)
-	items = append(items, txid)
-
-	sql.UpdateTransaction(items[0], items[1], trunk)
-	sql.UpdateTransaction(items[1], items[2], trunk)
-	sql.UpdateTransaction(items[2], trunk, branch)
-	sql.InsertBundle(bundle_id, 2)
-
-}
-
-/*
 func main() {
 	args := os.Args[1:]
 	port := "8666"
