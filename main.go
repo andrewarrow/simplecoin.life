@@ -41,6 +41,7 @@ func simpleBundle(from, to, trunk, branch string, value, balance int64) string {
 
 func main() {
 	sql.InsertTransaction("genesis", "genesis", "root", "", 2779530283277761, 0, 0)
+	sql.InsertBundle("genesis", 0)
 	i := 0
 	var address string
 	var from string = "root"
