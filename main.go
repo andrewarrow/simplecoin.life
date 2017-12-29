@@ -3,7 +3,6 @@ package main
 import "github.com/andrewarrow/simplecoin.life/words"
 import "github.com/andrewarrow/simplecoin.life/sql"
 import "fmt"
-import "math"
 
 var version = "0.1"
 
@@ -15,35 +14,29 @@ func Reverse(s string) string {
 	return string(runes)
 }
 
-func simpleBundle(from, to string, value, balance int64) []map[string]string {
-	trunk := items[512]
-	branch := items[9003]
-
-	items := []map[string]string{}
+func simpleBundle(from, to, trunk, branch string, value, balance int64) string {
+	items := []string{}
 
 	bundle := words.BigWords()
 	tx := words.BigWords()
-	item := map[string]string{tx: tx, bundle: bundle}
 	sql.InsertTransaction(tx, bundle, to, "", value, 0, 2)
-	items = append(items, item)
+	items = append(items, tx)
 
 	tx = words.BigWords()
-	item = map[string]string{tx: tx, bundle: bundle}
 	sql.InsertTransaction(tx, bundle, from, Reverse(from), -1*value, 1, 2)
-	items = append(items, item)
+	items = append(items, tx)
 
 	tx = words.BigWords()
-	new_address = words.BigWords()
+	new_address := words.BigWords()
 	sql.InsertTransaction(tx, bundle, new_address, "", balance-value, 2, 2)
-	item = map[string]string{tx: tx, bundle: bundle, change: new_address}
-	items = append(items, item)
+	items = append(items, tx)
 
 	sql.UpdateTransaction(items[0], items[1], trunk)
 	sql.UpdateTransaction(items[1], items[2], trunk)
 	sql.UpdateTransaction(items[2], trunk, branch)
 	sql.InsertBundle(bundle, 2)
 
-	return items
+	return new_address
 }
 
 func main() {
