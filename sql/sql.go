@@ -39,7 +39,7 @@ func UpdateTransaction(id, branch, trunk string) {
 	if db == nil {
 		db, _ = sql.Open("mysql", dburl())
 	}
-	statement, _ := db.Prepare("update transactions set branch=?, trunk=? where id=?;")
+	statement, _ := db.Prepare("update transactions set branch=?, trunk=? where tx=?;")
 	statement.Exec(branch, trunk, id)
 	statement.Close()
 }

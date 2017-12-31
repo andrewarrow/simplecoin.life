@@ -62,7 +62,22 @@ func main() {
 
 /*
 
+use the other one until last
 
+once I set my trunk and branch on a tx, need a way to produce a hash with all that data
+
+by finding a nonce such that the hash of that nonce
+
+3187183146141 = AAAHAHHAHHAHHAHHAHAHHAH + SDAT
+
+MA999IWC9999999999999999999
+9Z9999PF9999999999999999999
+PA9999XG9999999999999999999
+VA999IVE9999999999999999999
+
+
+concatenated with some data from the approved transaction
+has a particular form
 
 
 

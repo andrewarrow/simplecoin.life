@@ -12,7 +12,7 @@ CREATE TABLE bundles (id bigint auto_increment,
                       bundle varchar(81), 
                       last_index int, 
                       ts datetime(6), 
-                      PRIMARY KEY(id), key(bundle), key(id, bundle, last_index, ts));
+                      PRIMARY KEY(id), key(bundle));
 
 CREATE TABLE transactions (id bigint auto_increment, tx varchar(81), ts datetime(6), value bigint,
                            signature varchar(81),
