@@ -5,18 +5,22 @@
 5. nonce
 6. tag
 
+curl -H "Content-Type: application/json" -d '{"command": "getBalances", "addresses": ["Zoom"]}' http://localhost:3001
 
-CREATE TABLE bundles (id varchar(81), ts datetime(6), last_index int, PRIMARY KEY(ts), key(id));
 
-CREATE TABLE transactions (id varchar(81), ts datetime(6), value bigint,
+CREATE TABLE bundles (id bigint auto_increment, bundle varchar(81), ts datetime(6), 
+                      last_index int, PRIMARY KEY(id), key(bundle), key(ts));
+
+CREATE TABLE transactions (id bigint auto_increment, tx varchar(81), ts datetime(6), value bigint,
                            signature varchar(81),
                            current_index integer,
                            last_index integer,
                            bundle varchar(81),
                            trunk varchar(81),
                            branch varchar(81),
-                           address varchar(81), PRIMARY KEY (ts), 
-                           KEY (address), KEY (id), KEY (bundle));
+                           nonce varchar(81),
+                           address varchar(81), PRIMARY KEY (id), 
+                           KEY (address), KEY (ts), KEY (tx), KEY (bundle));
 
 
 
