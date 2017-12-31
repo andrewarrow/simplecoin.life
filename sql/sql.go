@@ -24,13 +24,13 @@ func dburl() string {
 		dbconf["user"], dbconf["password"], dbconf["host"], dbconf["name"])
 }
 
-func InsertBundle(bundle_id string, last_index int) {
+func InsertBundle(bundle string, last_index int) {
 
 	if db == nil {
 		db, _ = sql.Open("mysql", dburl())
 	}
-	statement, _ := db.Prepare("insert into bundles (id, ts, last_index) values (?,now(6),?);")
-	statement.Exec(bundle_id, last_index)
+	statement, _ := db.Prepare("insert into bundles (bundle, ts, last_index) values (?,now(6),?);")
+	statement.Exec(bundle, last_index)
 	defer statement.Close()
 }
 
@@ -50,11 +50,11 @@ func InsertTransaction(id, bundle, address, signature string, value int64, curre
 		db, _ = sql.Open("mysql", dburl())
 	}
 	if signature == "" {
-		statement, _ := db.Prepare("insert into transactions (id, bundle, ts, value, address, current_index, last_index) values (?,?,now(6),?,?,?,?);")
+		statement, _ := db.Prepare("insert into transactions (tx, bundle, ts, value, address, current_index, last_index) values (?,?,now(6),?,?,?,?);")
 		statement.Exec(id, bundle, value, address, current, last)
 		statement.Close()
 	} else {
-		statement, _ := db.Prepare("insert into transactions (id, bundle, ts, value, address, signature, current_index, last_index) values (?,?,now(6),?,?,?,?,?);")
+		statement, _ := db.Prepare("insert into transactions (tx, bundle, ts, value, address, signature, current_index, last_index) values (?,?,now(6),?,?,?,?,?);")
 		statement.Exec(id, bundle, value, address, signature, current, last)
 		statement.Close()
 	}
