@@ -9,7 +9,7 @@ curl -H "Content-Type: application/json" -d '{"command": "getBalances", "address
 
 
 CREATE TABLE bundles (id bigint auto_increment, bundle varchar(81), ts datetime(6), 
-                      last_index int, PRIMARY KEY(id), key(bundle), key(ts));
+                      last_index int, PRIMARY KEY(id), key(bundle), key(id, bundle, last_index, ts));
 
 CREATE TABLE transactions (id bigint auto_increment, tx varchar(81), ts datetime(6), value bigint,
                            signature varchar(81),
@@ -20,7 +20,7 @@ CREATE TABLE transactions (id bigint auto_increment, tx varchar(81), ts datetime
                            branch varchar(81),
                            nonce varchar(81),
                            address varchar(81), PRIMARY KEY (id), 
-                           KEY (address), KEY (ts), KEY (tx), KEY (bundle));
+                           KEY (address), KEY (tx), KEY (bundle));
 
 
 
