@@ -8,8 +8,11 @@
 curl -H "Content-Type: application/json" -d '{"command": "getBalances", "addresses": ["Zoom"]}' http://localhost:3001
 
 
-CREATE TABLE bundles (id bigint auto_increment, bundle varchar(81), ts datetime(6), 
-                      last_index int, PRIMARY KEY(id), key(bundle), key(id, bundle, last_index, ts));
+CREATE TABLE bundles (id bigint auto_increment, 
+                      bundle varchar(81), 
+                      last_index int, 
+                      ts datetime(6), 
+                      PRIMARY KEY(id), key(bundle), key(id, bundle, last_index, ts));
 
 CREATE TABLE transactions (id bigint auto_increment, tx varchar(81), ts datetime(6), value bigint,
                            signature varchar(81),
